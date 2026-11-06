@@ -85,6 +85,7 @@ export const ExperienceDetailView: React.FC<Props> = ({
     soundEngine.playKeyClick();
     const newM: Milestone = {
       id: Date.now().toString(),
+      trackId: experience.id,
       title: newMilestoneTitle.trim(),
       deadline: newMilestoneDate || new Date().toISOString().slice(0, 10),
       completed: false,
@@ -123,6 +124,7 @@ export const ExperienceDetailView: React.FC<Props> = ({
     soundEngine.playKeyClick();
     const newG: DailyGoal = {
       id: Date.now().toString(),
+      trackId: experience.id,
       text: newGoalText.trim(),
       completed: false,
       category: 'Focus',
@@ -309,19 +311,19 @@ export const ExperienceDetailView: React.FC<Props> = ({
           <span className="text-xs text-zinc-400 font-mono">Real-time simulation engine</span>
         </div>
 
-        {experience.id === 'swe_faang' && (
+        {experience.id === 'developer' && (
           <SweTrackDetail experience={experience} onUpdateExperience={onUpdateExperience} />
         )}
-        {experience.id === 'quant_citadel' && (
+        {experience.id === 'interview' && (
           <QuantSpeedMath experience={experience} onUpdateExperience={onUpdateExperience} />
         )}
-        {experience.id === 'founder_stealth' && (
+        {experience.id === 'job-hunt' && (
           <FounderRunwayCalc experience={experience} onUpdateExperience={onUpdateExperience} />
         )}
-        {experience.id === 'remote_architect' && (
+        {experience.id === 'career-switch' && (
           <NomadTimezoneBudget experience={experience} onUpdateExperience={onUpdateExperience} />
         )}
-        {experience.id === 'cyber_redteam' && (
+        {experience.id === 'first-job' && (
           <CyberTacticalOps experience={experience} onUpdateExperience={onUpdateExperience} />
         )}
       </section>
@@ -544,3 +546,4 @@ export const ExperienceDetailView: React.FC<Props> = ({
     </div>
   );
 };
+

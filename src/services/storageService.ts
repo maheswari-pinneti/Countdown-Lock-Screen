@@ -1,78 +1,86 @@
-import { CareerExperience, AppSettings } from '../types';
-import { DEFAULT_EXPERIENCES } from '../data/defaultExperiences';
+import { CareerExperience, AppSettings, CountdownDesignPreset } from '../types';
+import { DEFAULT_EXPERIENCES, DEFAULT_DESIGN_PRESETS } from '../data/defaultExperiences';
+import { getStoredItem, setStoredItem } from '../utils/storage';
 
-const STORAGE_KEY_EXPERIENCES = 'offer_mode_experiences_v1';
-const STORAGE_KEY_SETTINGS = 'offer_mode_settings_v1';
+const STORAGE_KEY_EXPERIENCES = 'offer_mode_experiences_v2';
+const STORAGE_KEY_SETTINGS = 'offer_mode_settings_v2';
+const STORAGE_KEY_PRESETS = 'offer_mode_presets_v2';
 
 export const DEFAULT_SETTINGS: AppSettings = {
+  themeMode: 'dark',
   timeFormat: '24h',
   soundEnabled: true,
   soundVolume: 0.35,
   currentSoundTheme: 'cyber_hum',
   vibrationOnMilestone: true,
   showMilliseconds: true,
-  activeExperienceId: 'overview',
+  activeTrackId: 'overview',
   isLockScreenActive: false,
   zenMode: false,
+  activeDesignPresetId: 'preset-emerald-glass',
 };
 
 export const loadExperiences = (): CareerExperience[] => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_EXPERIENCES);
-    if (!raw) return DEFAULT_EXPERIENCES;
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed) && parsed.length === 5) {
-      return parsed;
-    }
-  } catch (e) {
-    console.error('Failed to load experiences from localStorage', e);
+  const experiences = getStoredItem<CareerExperience[]>(STORAGE_KEY_EXPERIENCES, DEFAULT_EXPERIENCES);
+  if (Array.isArray(experiences) && experiences.length === 5) {
+    return experiences;
   }
   return DEFAULT_EXPERIENCES;
 };
 
 export const saveExperiences = (experiences: CareerExperience[]): void => {
-  try {
-    localStorage.setItem(STORAGE_KEY_EXPERIENCES, JSON.stringify(experiences));
-  } catch (e) {
-    console.error('Failed to save experiences to localStorage', e);
-  }
+  setStoredItem(STORAGE_KEY_EXPERIENCES, experiences);
 };
 
 export const loadSettings = (): AppSettings => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_SETTINGS);
-    if (!raw) return DEFAULT_SETTINGS;
-    return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
-  } catch (e) {
-    console.error('Failed to load settings from localStorage', e);
-  }
-  return DEFAULT_SETTINGS;
+  return getStoredItem<AppSettings>(STORAGE_KEY_SETTINGS, DEFAULT_SETTINGS);
 };
 
 export const saveSettings = (settings: AppSettings): void => {
-  try {
-    localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings));
-  } catch (e) {
-    console.error('Failed to save settings to localStorage', e);
-  }
+  setStoredItem(STORAGE_KEY_SETTINGS, settings);
 };
 
-export const exportAppState = (experiences: CareerExperience[], settings: AppSettings): string => {
-  return JSON.stringify({
-    version: '1.0.0',
+export const loadDesignPresets = (): CountdownDesignPreset[] => {
+  return getStoredItem<CountdownDesignPreset[]>(STORAGE_KEY_PRESETS, DEFAULT_DESIGN_PRESETS);
+};
+
+export const saveDesignPresets = (presets: CountdownDesignPreset[]): void => {
+  setStoredItem(STORAGE_KEY_PRESETS, presets);
+};
+
+export interface AppBackupData {
+  version: string;
+  exportDate: string;
+  experiences: CareerExperience[];
+  settings: AppSettings;
+  presets: CountdownDesignPreset[];
+}
+
+export const exportAppState = (
+  experiences: CareerExperience[],
+  settings: AppSettings,
+  presets: CountdownDesignPreset[]
+): string => {
+  const data: AppBackupData = {
+    version: '2.0.0',
     exportDate: new Date().toISOString(),
     experiences,
     settings,
-  }, null, 2);
+    presets,
+  };
+  return JSON.stringify(data, null, 2);
 };
 
-export const importAppState = (jsonString: string): { experiences: CareerExperience[]; settings: AppSettings } => {
-  const data = JSON.parse(jsonString);
+export const importAppState = (jsonString: string): AppBackupData => {
+  const data = JSON.parse(jsonString) as Partial<AppBackupData>;
   if (!data.experiences || !Array.isArray(data.experiences)) {
     throw new Error('Invalid export file: missing experiences array');
   }
   return {
+    version: data.version || '2.0.0',
+    exportDate: data.exportDate || new Date().toISOString(),
     experiences: data.experiences,
     settings: { ...DEFAULT_SETTINGS, ...(data.settings || {}) },
+    presets: Array.isArray(data.presets) ? data.presets : DEFAULT_DESIGN_PRESETS,
   };
 };

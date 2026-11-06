@@ -93,7 +93,9 @@ export const LockScreenModal: React.FC<Props> = ({
     onUpdateSettings({ soundEnabled: newSoundEnabled });
     soundEngine.setMuted(!newSoundEnabled);
     if (newSoundEnabled) {
-      soundEngine.playAmbient(currentExperience.theme.ambientSound);
+      if (currentExperience.theme.ambientSound !== 'none') {
+        soundEngine.playAmbient(currentExperience.theme.ambientSound);
+      }
     } else {
       soundEngine.stopAmbient();
     }
@@ -101,10 +103,10 @@ export const LockScreenModal: React.FC<Props> = ({
 
   // Switch sound when experience changes
   useEffect(() => {
-    if (settings.soundEnabled) {
+    if (settings.soundEnabled && currentExperience.theme.ambientSound !== 'none') {
       soundEngine.playAmbient(currentExperience.theme.ambientSound);
     }
-  }, [currentExperience.id, settings.soundEnabled]);
+  }, [currentExperience.id, settings.soundEnabled, currentExperience.theme.ambientSound]);
 
   // Rotate quotes every 12 seconds
   useEffect(() => {
@@ -160,7 +162,7 @@ export const LockScreenModal: React.FC<Props> = ({
   return (
     <div
       className={`fixed inset-0 z-50 flex flex-col justify-between bg-black text-white select-none overflow-hidden transition-all duration-700 ${
-        currentExperience.id === 'quant_citadel'
+        currentExperience.id === 'interview'
           ? 'font-mono'
           : 'font-sans'
       }`}
@@ -185,7 +187,7 @@ export const LockScreenModal: React.FC<Props> = ({
           }}
         />
         {/* CRT Scanline effect for Quant mode */}
-        {currentExperience.id === 'quant_citadel' && (
+        {currentExperience.id === 'interview' && (
           <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.35)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40" />
         )}
       </div>
@@ -452,3 +454,4 @@ export const LockScreenModal: React.FC<Props> = ({
     </div>
   );
 };
+

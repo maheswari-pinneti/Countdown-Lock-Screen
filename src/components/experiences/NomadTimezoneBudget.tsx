@@ -1,33 +1,15 @@
 import React, { useState } from 'react';
-import { CareerExperience } from '../../types';
+import { CareerExperience, CareerSwitchExperienceData, NomadDestination } from '../../types';
 import { soundEngine } from '../../services/soundEngine';
-import {
-  Compass,
-  Globe,
-  Sun,
-  Moon,
-  DollarSign,
-  TrendingUp,
-  MapPin,
-  Sparkles,
-  Clock
-} from 'lucide-react';
+import { Icon } from '../common/Icon';
+import { Card } from '../common/Card';
 
 interface Props {
   experience: CareerExperience;
   onUpdateExperience: (updated: CareerExperience) => void;
 }
 
-interface Destination {
-  city: string;
-  country: string;
-  avgCost: number;
-  taxAdvantage: string;
-  timezone: string;
-  offset: number; // UTC offset
-}
-
-const DESTINATIONS: Destination[] = [
+const DEFAULT_DESTINATIONS: NomadDestination[] = [
   { city: 'Bali / Canggu', country: 'Indonesia', avgCost: 2200, taxAdvantage: 'Remote Worker KITAS', timezone: 'WITA', offset: 8 },
   { city: 'Lisbon / Algarve', country: 'Portugal', avgCost: 3400, taxAdvantage: 'D8 Digital Nomad Visa', timezone: 'WET', offset: 0 },
   { city: 'Tokyo / Kyoto', country: 'Japan', avgCost: 3100, taxAdvantage: '6-Month Digital Nomad Visa', timezone: 'JST', offset: 9 },
@@ -36,12 +18,28 @@ const DESTINATIONS: Destination[] = [
 ];
 
 export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExperience }) => {
-  const [selectedDest, setSelectedDest] = useState<Destination>(DESTINATIONS[0]);
-  const [monthlyGrossIncome, setMonthlyGrossIncome] = useState(18500); // e.g. ~$222k/yr
-  const [taxRatePct, setTaxRatePct] = useState(18); // Foreign earned income / nomad structuring
-  const [clientTimezoneOffset, setClientTimezoneOffset] = useState(-8); // San Francisco PST
-  const [myStartHour, setMyStartHour] = useState(8); // 8 AM
-  const [myWorkDuration, setMyWorkDuration] = useState(6); // 6 hours focused deep work
+  const switchData: CareerSwitchExperienceData = experience.specialized.type === 'career-switch'
+    ? experience.specialized.data
+    : {
+        sourceDomain: 'Corporate Lead',
+        targetDomain: 'Fractional CTO',
+        targetCity: 'Bali & Lisbon',
+        destinations: DEFAULT_DESTINATIONS,
+        selectedCityIndex: 0,
+        monthlyRemoteRevenue: 18500,
+        taxRatePct: 18,
+        myWorkStartHour: 8,
+        myWorkDuration: 6,
+      };
+
+  const destinations = switchData.destinations || DEFAULT_DESTINATIONS;
+  const [selectedDest, setSelectedDest] = useState<NomadDestination>(
+    destinations[switchData.selectedCityIndex] || destinations[0]
+  );
+  const [monthlyGrossIncome, setMonthlyGrossIncome] = useState(switchData.monthlyRemoteRevenue || 18500);
+  const [taxRatePct, setTaxRatePct] = useState(switchData.taxRatePct || 18);
+  const [myStartHour, setMyStartHour] = useState(switchData.myWorkStartHour || 8);
+  const [myWorkDuration, setMyWorkDuration] = useState(switchData.myWorkDuration || 6);
 
   // Financial calculations
   const netIncome = Math.round(monthlyGrossIncome * (1 - taxRatePct / 100));
@@ -49,29 +47,28 @@ export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExper
   const savingsRate = Math.round((monthlySavings / netIncome) * 100);
   const freedomMultiplier = (netIncome / selectedDest.avgCost).toFixed(1);
 
-  // Timezone hours generator (0 to 23)
   const hours24 = Array.from({ length: 24 }, (_, i) => i);
 
   return (
     <div className="space-y-6">
       {/* Top Value Banner */}
-      <div className="p-4 rounded-xl bg-teal-950/30 border border-teal-500/30 flex items-center justify-between text-xs text-teal-300">
+      <div className="p-4 rounded-2xl bg-teal-950/30 border border-teal-500/30 flex items-center justify-between text-xs text-teal-300">
         <div className="flex items-center gap-2">
-          <Globe className="w-4 h-4 text-teal-400" />
+          <Icon name="Globe" className="w-4 h-4 text-teal-400" />
           <span>
             Geo-Arbitrage Multiplier: <strong>{freedomMultiplier}x Freedom Ratio</strong>. Every 1 month of work funds {freedomMultiplier} months of life in {selectedDest.city}.
           </span>
         </div>
-        <span className="font-semibold uppercase tracking-wider text-emerald-400">
+        <span className="font-semibold uppercase tracking-wider text-emerald-400 font-mono">
           SAVINGS RATE: {savingsRate}%
         </span>
       </div>
 
       {/* Section 1: Timezone Overlap Visualizer */}
-      <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+      <Card className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <Clock className="w-4 h-4 text-teal-400" />
+            <Icon name="Clock" className="w-4 h-4 text-teal-400" />
             <span>Async Daylight & Client Overlap Visualizer (24-Hour Matrix)</span>
           </h3>
           <span className="text-xs text-zinc-400">Green = High Focus Overlap</span>
@@ -82,7 +79,7 @@ export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExper
           <div>
             <div className="flex justify-between text-xs text-zinc-300 mb-1.5 font-mono">
               <span className="flex items-center gap-1.5 text-teal-300 font-semibold">
-                <MapPin className="w-3.5 h-3.5" />
+                <Icon name="MapPin" className="w-3.5 h-3.5" />
                 {selectedDest.city} (UTC {selectedDest.offset >= 0 ? `+${selectedDest.offset}` : selectedDest.offset})
               </span>
               <span>My Working Window: {myStartHour}:00 - {myStartHour + myWorkDuration}:00</span>
@@ -114,15 +111,13 @@ export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExper
           <div>
             <div className="flex justify-between text-xs text-zinc-400 mb-1.5 font-mono">
               <span className="flex items-center gap-1.5">
-                <Globe className="w-3.5 h-3.5" />
+                <Icon name="Globe" className="w-3.5 h-3.5" />
                 HQ / Client Base (San Francisco PST, UTC -8)
               </span>
               <span>Client Standard Hours: 09:00 - 17:00 PST</span>
             </div>
             <div className="grid grid-cols-24 gap-1 h-7">
               {hours24.map((h) => {
-                // Client time in their local hours
-                // difference = -8 - selectedDest.offset
                 const diff = -8 - selectedDest.offset;
                 const clientHour = (h + diff + 48) % 24;
                 const clientWorking = clientHour >= 9 && clientHour < 17;
@@ -162,28 +157,28 @@ export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExper
           />
           <span className="font-mono text-teal-300 font-bold">{myStartHour}:00</span>
         </div>
-      </div>
+      </Card>
 
-      {/* Section 2: Geo-Arbitrage Destination & Financial Simulator */}
+      {/* Section 2: Destination & Financial Simulator */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Destination Picker */}
-        <div className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-4">
+        <Card className="space-y-4">
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-teal-400" />
+            <Icon name="MapPin" className="w-4 h-4 text-teal-400" />
             <span>Select Nomad Hub Target</span>
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {DESTINATIONS.map((dest) => {
+            {destinations.map((dest) => {
               const isSelected = dest.city === selectedDest.city;
               return (
                 <button
                   key={dest.city}
+                  type="button"
                   onClick={() => {
                     soundEngine.playKeyClick();
                     setSelectedDest(dest);
                   }}
-                  className={`p-3 rounded-xl border text-left transition-all ${
+                  className={`p-3 rounded-2xl border text-left transition-all ${
                     isSelected
                       ? 'bg-teal-950/40 border-teal-500 text-white shadow-md'
                       : 'bg-zinc-900/40 border-zinc-800 text-zinc-300 hover:border-zinc-700'
@@ -199,7 +194,6 @@ export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExper
             })}
           </div>
 
-          {/* Income Sliders */}
           <div className="space-y-3 pt-2">
             <div>
               <div className="flex justify-between text-xs text-zinc-300 mb-1">
@@ -220,7 +214,9 @@ export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExper
             <div>
               <div className="flex justify-between text-xs text-zinc-300 mb-1">
                 <span>Effective Structured Tax Rate</span>
-                <span className="font-mono text-zinc-400">{taxRatePct}% (${Math.round(monthlyGrossIncome * taxRatePct / 100).toLocaleString()}/mo)</span>
+                <span className="font-mono text-zinc-400">
+                  {taxRatePct}% (${Math.round((monthlyGrossIncome * taxRatePct) / 100).toLocaleString()}/mo)
+                </span>
               </div>
               <input
                 type="range"
@@ -233,14 +229,14 @@ export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExper
               />
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Wealth Acceleration Card */}
-        <div className="p-6 rounded-2xl bg-zinc-950/80 border border-teal-500/30 flex flex-col justify-between">
+        <Card className="flex flex-col justify-between border-teal-500/30">
           <div>
             <div className="flex items-center justify-between mb-4">
               <span className="text-xs uppercase font-semibold text-teal-400">Net Monthly Freedom Surplus</span>
-              <Sparkles className="w-4 h-4 text-teal-400" />
+              <Icon name="Sparkles" className="w-4 h-4 text-teal-400" />
             </div>
 
             <div className="text-4xl font-extrabold text-white font-mono mb-2">
@@ -269,9 +265,9 @@ export const NomadTimezoneBudget: React.FC<Props> = ({ experience, onUpdateExper
           </div>
 
           <div className="mt-4 p-3 rounded-xl bg-teal-950/30 border border-teal-800/40 text-xs text-teal-300">
-            🌴 <strong>Nomad Rule:</strong> True wealth is not merely money; it is complete geographic and schedule sovereignty.
+            🌴 <strong>Nomad Rule:</strong> True wealth is having complete geographic, calendar, and lifestyle sovereignty.
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 // Web Audio API Procedural Sound Engine
 // Synthesizes ambient generative soundscapes, keyboard clicks, tick pulses, and success chimes
 
+import { AmbientSoundTheme } from '../types';
+
 class SoundEngine {
   private ctx: AudioContext | null = null;
   private ambientGain: GainNode | null = null;
@@ -137,8 +139,11 @@ class SoundEngine {
     }
   }
 
-  public playAmbient(type: 'cyber_hum' | 'ticker_market' | 'rain_lofi' | 'binaural_focus' | 'stealth_radar') {
-    if (this.isMuted) return;
+  public playAmbient(type: AmbientSoundTheme) {
+    if (this.isMuted || type === 'none') {
+      this.stopAmbient();
+      return;
+    }
     try {
       this.initContext();
       if (!this.ctx) return;
@@ -242,3 +247,4 @@ class SoundEngine {
 }
 
 export const soundEngine = new SoundEngine();
+

@@ -1,87 +1,262 @@
-export type ExperienceId = 'swe_faang' | 'quant_citadel' | 'founder_stealth' | 'remote_architect' | 'cyber_redteam';
+export type ExperienceTrackId = 
+  | 'developer'
+  | 'interview'
+  | 'job-hunt'
+  | 'career-switch'
+  | 'first-job';
+
+export type ExperienceId = ExperienceTrackId;
+
+export type MilestoneCategory = 'prep' | 'interview' | 'portfolio' | 'application' | 'negotiation' | 'decision';
+export type MilestoneStatus = 'todo' | 'in_progress' | 'completed';
 
 export interface Milestone {
   id: string;
+  trackId: ExperienceTrackId;
   title: string;
-  deadline: string; // ISO date
+  deadline: string; // ISO 8601 date string
   completed: boolean;
-  category: 'prep' | 'interview' | 'negotiation' | 'decision';
+  category: MilestoneCategory;
   notes?: string;
 }
 
-export interface InterviewRound {
+export type InterviewStageStatus = 'upcoming' | 'passed' | 'review' | 'pending' | 'rejected';
+
+export interface InterviewStage {
   id: string;
+  trackId: ExperienceTrackId;
+  roundNumber: number;
   title: string;
   date: string;
-  status: 'upcoming' | 'passed' | 'review' | 'pending';
-  interviewer?: string;
+  status: InterviewStageStatus;
   focusArea: string;
+  interviewer?: string;
+  preparationNotes?: string;
 }
+
+export type InterviewRound = InterviewStage;
 
 export interface DailyGoal {
   id: string;
+  trackId: ExperienceTrackId;
   text: string;
   completed: boolean;
   category: string;
+}
+
+export interface TrackMetric {
+  id: string;
+  label: string;
+  current: number;
+  target: number;
+  unit: string;
 }
 
 export interface CompensationPackage {
   currency: string;
   baseSalary: number;
   bonusPercentage: number;
-  equityValue: number; // 4-year total or annual
+  equityValue: number;
   equityType: 'RSU' | 'Options' | 'Carry' | 'Tokens';
   signOnBonus: number;
   targetTotalComp: number;
   currentOffer?: number;
 }
 
+export type AmbientSoundTheme = 
+  | 'cyber_hum' 
+  | 'ticker_market' 
+  | 'rain_lofi' 
+  | 'binaural_focus' 
+  | 'stealth_radar' 
+  | 'none';
+
+export interface ExperienceTheme {
+  primary: string;
+  primaryGlow: string;
+  accent: string;
+  bgGradient: string;
+  cardBg: string;
+  borderColor: string;
+  textColor: string;
+  ambientSound: AmbientSoundTheme;
+  scanlines?: boolean;
+}
+
+// 1. Developer Track Specifics
+export interface LeetCodeCategoryStat {
+  name: string;
+  count: number;
+  mastered: number;
+}
+
+export interface DeveloperExperienceData {
+  targetRole: string;
+  targetCompany: string;
+  leetcodeCategories: LeetCodeCategoryStat[];
+  systemDesignTopics: string[];
+  mockRating: number;
+  deepWorkHours: number;
+}
+
+// 2. Interview & Quant Track Specifics
+export interface MathSpeedRecord {
+  accuracyPct: number;
+  avgLatencyMs: number;
+  highScore: number;
+  recentScores: number[];
+}
+
+export interface InterviewExperienceData {
+  targetFirm: string;
+  superdayDate: string;
+  mathRecords: MathSpeedRecord;
+  targetSharpe: number;
+  currentSharpe: number;
+  drillsCompleted: number;
+}
+
+// 3. Job Hunt & Founder Track Specifics
+export interface FeatureSprintItem {
+  id: string;
+  name: string;
+  status: 'planned' | 'in_progress' | 'shipped';
+  impact: 'Critical' | 'High' | 'Medium';
+}
+
+export interface JobHuntExperienceData {
+  ventureName: string;
+  targetRaise: number;
+  postMoneyCap: number;
+  monthlyBurn: number;
+  cashInBank: number;
+  applicationsSent: number;
+  responseRatePct: number;
+  featureSprints: FeatureSprintItem[];
+}
+
+// 4. Career Switch & Remote Track Specifics
+export interface NomadDestination {
+  city: string;
+  country: string;
+  avgCost: number;
+  taxAdvantage: string;
+  timezone: string;
+  offset: number;
+}
+
+export interface CareerSwitchExperienceData {
+  sourceDomain: string;
+  targetDomain: string;
+  targetCity: string;
+  destinations: NomadDestination[];
+  selectedCityIndex: number;
+  monthlyRemoteRevenue: number;
+  taxRatePct: number;
+  myWorkStartHour: number;
+  myWorkDuration: number;
+}
+
+// 5. First Job & Defense Cyber Track Specifics
+export interface CveLabItem {
+  id: string;
+  cveId: string;
+  target: string;
+  status: 'In_Progress' | 'Replicated' | 'Patched';
+  severity: 'Critical' | 'High';
+}
+
+export interface FirstJobExperienceData {
+  pathway: string;
+  clearanceScope: 'None' | 'Secret' | 'TS_SCI';
+  defconStatus: string;
+  competingOffersCount: number;
+  recruiterUrgency: number;
+  cveLabs: CveLabItem[];
+  githubContributions: number;
+}
+
+export type SpecializedExperienceData = 
+  | { type: 'developer'; data: DeveloperExperienceData }
+  | { type: 'interview'; data: InterviewExperienceData }
+  | { type: 'job-hunt'; data: JobHuntExperienceData }
+  | { type: 'career-switch'; data: CareerSwitchExperienceData }
+  | { type: 'first-job'; data: FirstJobExperienceData };
+
 export interface CareerExperience {
-  id: ExperienceId;
+  id: ExperienceTrackId;
   name: string;
   tagline: string;
   badge: string;
   icon: string;
-  theme: {
-    primary: string;
-    primaryGlow: string;
-    accent: string;
-    bgGradient: string;
-    cardBg: string;
-    borderColor: string;
-    textColor: string;
-    ambientSound: 'cyber_hum' | 'ticker_market' | 'rain_lofi' | 'binaural_focus' | 'stealth_radar';
-  };
+  route: string;
+  theme: ExperienceTheme;
   targetRole: string;
   targetCompany: string;
-  targetOfferDate: string; // ISO string e.g. "2026-12-15T18:00:00"
-  targetOfferDateEnd?: string;
-  readinessScore: number; // 0 - 100
+  targetOfferDate: string; // ISO 8601
+  startDateIso: string;
+  readinessScore: number;
   streakDays: number;
   compensation: CompensationPackage;
   milestones: Milestone[];
-  interviewPipeline: InterviewRound[];
+  interviewPipeline: InterviewStage[];
   dailyGoals: DailyGoal[];
-  customMetrics: {
-    label: string;
-    current: number;
-    target: number;
-    unit: string;
-  }[];
+  customMetrics: TrackMetric[];
   quotes: string[];
   notes: string;
-  // Specific data fields
-  specializedData: Record<string, any>;
+  specialized: SpecializedExperienceData;
 }
 
+// Countdown Customizer / Studio Preset
+export interface CountdownDesignPreset {
+  id: string;
+  name: string;
+  trackId: ExperienceTrackId;
+  fontFamily: 'mono' | 'sans' | 'display';
+  styleVariant: 'glass' | 'cyber' | 'terminal' | 'minimal' | 'bold';
+  accentColor: string;
+  backgroundColor: string;
+  showMilliseconds: boolean;
+  showProgressBar: boolean;
+  showQuotes: boolean;
+  ambientSound: AmbientSoundTheme;
+  customQuote?: string;
+  createdDate: string;
+}
+
+// App Settings & Theme
+export type ThemeMode = 'dark' | 'light' | 'system';
+
 export interface AppSettings {
+  themeMode: ThemeMode;
   timeFormat: '12h' | '24h';
   soundEnabled: boolean;
   soundVolume: number;
-  currentSoundTheme: 'cyber_hum' | 'ticker_market' | 'rain_lofi' | 'binaural_focus' | 'stealth_radar' | 'none';
+  currentSoundTheme: AmbientSoundTheme;
   vibrationOnMilestone: boolean;
   showMilliseconds: boolean;
-  activeExperienceId: ExperienceId | 'overview';
+  activeTrackId: ExperienceTrackId | 'overview';
   isLockScreenActive: boolean;
   zenMode: boolean;
+  activeDesignPresetId: string;
+}
+
+// Date & Countdown Calculation Result
+export interface CountdownResult {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  milliseconds: number;
+  totalSeconds: number;
+  totalMilliseconds: number;
+  isExpired: boolean;
+  formatted: {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+    milliseconds: string;
+  };
+  progressPercentage: number;
 }

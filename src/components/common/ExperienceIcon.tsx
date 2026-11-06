@@ -38,3 +38,4 @@ export const ExperienceIcon: React.FC<Props> = ({ name, ...props }) => {
       return <Briefcase {...props} />;
   }
 };
+

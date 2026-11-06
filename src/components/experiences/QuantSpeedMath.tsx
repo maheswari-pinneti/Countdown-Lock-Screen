@@ -280,3 +280,4 @@ export const QuantSpeedMath: React.FC<Props> = ({ experience, onUpdateExperience
     </div>
   );
 };
+
