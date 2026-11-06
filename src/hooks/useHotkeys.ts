@@ -25,3 +25,4 @@ export function useHotkeys(keyMap: HotkeyMap, enabled: boolean = true) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [keyMap, enabled]);
 }
+

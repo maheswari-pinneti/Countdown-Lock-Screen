@@ -27,3 +27,4 @@ export const FirstJobPage: React.FC = () => {
     </div>
   );
 };
+

@@ -10,6 +10,8 @@ import { FirstJobPage } from '../features/first-job/FirstJobPage';
 import { CountdownStudioPage } from '../features/countdown-studio/CountdownStudioPage';
 import { MilestonesPage } from '../features/milestones/MilestonesPage';
 import { SavedDesignsPage } from '../features/saved-designs/SavedDesignsPage';
+import { MyLockScreensPage } from '../features/lockscreen/MyLockScreensPage';
+import { SettingsPage } from '../features/settings/SettingsPage';
 
 export const router = createBrowserRouter([
   {
@@ -53,9 +55,18 @@ export const router = createBrowserRouter([
         element: <SavedDesignsPage />,
       },
       {
+        path: 'my-lock-screens',
+        element: <MyLockScreensPage />,
+      },
+      {
+        path: 'settings',
+        element: <SettingsPage />,
+      },
+      {
         path: '*',
         element: <Navigate to="/" replace />,
       },
     ],
   },
 ]);
+

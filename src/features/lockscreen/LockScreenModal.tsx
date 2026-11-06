@@ -418,3 +418,4 @@ export const LockScreenModal: React.FC<Props> = ({ onClose }) => {
     </div>
   );
 };
+

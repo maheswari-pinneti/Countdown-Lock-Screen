@@ -66,3 +66,4 @@ export function formatCountdownSummary(result: CountdownResult): string {
   if (result.isExpired) return 'Target Date Reached';
   return `${result.days}d ${result.hours}h ${result.minutes}m ${result.seconds}s`;
 }
+

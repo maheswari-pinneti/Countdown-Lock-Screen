@@ -60,6 +60,10 @@ import {
   Save,
   Palette,
   Layout,
+  CalendarCheck,
+  GraduationCap,
+  ArrowLeftRight,
+  LayoutDashboard,
   LucideProps,
 } from 'lucide-react';
 
@@ -78,6 +82,15 @@ export type IconName =
   | 'Unlock'
   | 'Volume2'
   | 'VolumeX'
+  | 'CalendarCheck'
+  | 'GraduationCap'
+  | 'ArrowLeftRight'
+  | 'LayoutDashboard'
+  | 'calendar-check'
+  | 'briefcase-business'
+  | 'code'
+  | 'graduation-cap'
+  | 'arrow-left-right'
   | 'Maximize'
   | 'Minimize'
   | 'Flame'
@@ -186,6 +199,15 @@ const ICON_MAP: Record<IconName, React.ComponentType<LucideProps>> = {
   Save,
   Palette,
   Layout,
+  CalendarCheck,
+  GraduationCap,
+  ArrowLeftRight,
+  LayoutDashboard,
+  'calendar-check': CalendarCheck,
+  'briefcase-business': Briefcase,
+  'code': Code,
+  'graduation-cap': GraduationCap,
+  'arrow-left-right': ArrowLeftRight,
 };
 
 interface IconProps extends LucideProps {
@@ -196,3 +218,4 @@ export const Icon: React.FC<IconProps> = ({ name, ...props }) => {
   const Component = ICON_MAP[name as IconName] || Briefcase;
   return <Component {...props} />;
 };
+

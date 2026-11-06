@@ -62,3 +62,4 @@ export function toIsoDatetimeLocal(date: Date = new Date()): string {
   const minutes = pad(date.getMinutes());
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
+

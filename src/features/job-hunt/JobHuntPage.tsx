@@ -27,3 +27,4 @@ export const JobHuntPage: React.FC = () => {
     </div>
   );
 };
+

@@ -27,3 +27,4 @@ export const DeveloperPage: React.FC = () => {
     </div>
   );
 };
+

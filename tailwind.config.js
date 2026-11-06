@@ -8,6 +8,29 @@ export default {
   theme: {
     extend: {
       colors: {
+        navy: {
+          950: '#070B14',
+          900: '#0B1120',
+          850: '#0D1527',
+          800: '#0F172A',
+          700: '#131D38',
+        },
+        charcoal: {
+          950: '#0A0F1D',
+          900: '#0F172A',
+          850: '#111C35',
+          800: '#141E33',
+          750: '#17233D',
+          700: '#1E293B',
+          600: '#334155',
+          border: '#1E293B',
+        },
+        cyan: {
+          accent: '#00E5FF',
+          glow: 'rgba(0, 229, 255, 0.35)',
+          bright: '#38BDF8',
+          deep: '#0284C7',
+        },
         brand: {
           50: '#f0fdf4',
           100: '#dcfce7',
@@ -47,8 +70,8 @@ export default {
       },
       fontFamily: {
         mono: ['JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'monospace'],
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        display: ['Space Grotesk', 'Inter', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'Space Grotesk', 'Inter', 'sans-serif'],
       },
       animation: {
         'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
