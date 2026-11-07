@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { CareerExperience, Milestone, DailyGoal, InterviewStage } from '../../types';
+import { CareerExperience, DailyGoal, InterviewStage, Milestone } from '../../types';
 import { soundEngine } from '../../services/soundEngine';
 import { Icon } from '../common/Icon';
 import { Button } from '../common/Button';
 import { Card } from '../common/Card';
+import { MilestoneManager } from '../common/MilestoneManager';
 
 interface Props {
   experience: CareerExperience;
@@ -11,47 +12,13 @@ interface Props {
 }
 
 export const TrackRoadmap: React.FC<Props> = ({ experience, onUpdateExperience }) => {
-  const [newMilestoneTitle, setNewMilestoneTitle] = useState('');
-  const [newMilestoneDate, setNewMilestoneDate] = useState('');
   const [newGoalText, setNewGoalText] = useState('');
   const [notes, setNotes] = useState(experience.notes);
 
-  const handleToggleMilestone = (id: string) => {
-    soundEngine.playKeyClick();
-    const updated = experience.milestones.map((m) => {
-      if (m.id !== id) return m;
-      const next = !m.completed;
-      if (next) soundEngine.playSuccessChime();
-      return { ...m, completed: next };
-    });
-    onUpdateExperience({ ...experience, milestones: updated });
-  };
-
-  const handleAddMilestone = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newMilestoneTitle.trim()) return;
-    soundEngine.playKeyClick();
-    const newM: Milestone = {
-      id: Date.now().toString(),
-      trackId: experience.id,
-      title: newMilestoneTitle.trim(),
-      deadline: newMilestoneDate || new Date().toISOString().slice(0, 10),
-      completed: false,
-      category: 'prep',
-    };
+  const handleUpdateMilestones = (updatedMilestones: Milestone[]) => {
     onUpdateExperience({
       ...experience,
-      milestones: [...experience.milestones, newM],
-    });
-    setNewMilestoneTitle('');
-    setNewMilestoneDate('');
-  };
-
-  const handleDeleteMilestone = (id: string) => {
-    soundEngine.playKeyClick();
-    onUpdateExperience({
-      ...experience,
-      milestones: experience.milestones.filter((m) => m.id !== id),
+      milestones: updatedMilestones,
     });
   };
 
@@ -110,7 +77,15 @@ export const TrackRoadmap: React.FC<Props> = ({ experience, onUpdateExperience }
 
   return (
     <div className="space-y-8 mt-8">
-      {/* Top 2 Columns: Pipeline & Milestones */}
+      {/* 1. Universal Central Milestone Engine Section */}
+      <MilestoneManager
+        milestones={experience.milestones}
+        trackId={experience.id}
+        themeColor={experience.theme.primary}
+        onUpdateMilestones={handleUpdateMilestones}
+      />
+
+      {/* 2. Top Grid: Interview Pipeline & Tactical Notes */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interview Pipeline */}
         <Card>
@@ -158,69 +133,6 @@ export const TrackRoadmap: React.FC<Props> = ({ experience, onUpdateExperience }
           </div>
         </Card>
 
-        {/* Milestones Checklist */}
-        <Card>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <Icon name="CheckCircle2" className="w-4 h-4 text-emerald-400" />
-              <span>Target Milestones Checklist</span>
-            </h3>
-            <span className="text-xs text-zinc-400 font-mono">
-              {experience.milestones.filter((m) => m.completed).length}/{experience.milestones.length} Done
-            </span>
-          </div>
-
-          <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
-            {experience.milestones.map((m) => (
-              <div
-                key={m.id}
-                className="p-3 rounded-xl bg-black/40 border border-zinc-800/80 flex items-center justify-between gap-3 text-xs"
-              >
-                <div className="flex items-center gap-3">
-                  <button onClick={() => handleToggleMilestone(m.id)} className="text-zinc-500 hover:text-white">
-                    <Icon
-                      name={m.completed ? 'CheckCircle2' : 'Circle'}
-                      className={`w-4 h-4 ${m.completed ? 'text-emerald-400' : 'text-zinc-600'}`}
-                    />
-                  </button>
-                  <span className={`font-medium ${m.completed ? 'line-through text-zinc-500' : 'text-zinc-200'}`}>
-                    {m.title}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-[10px] font-mono text-zinc-500">{m.deadline}</span>
-                  <button onClick={() => handleDeleteMilestone(m.id)} className="p-1 text-zinc-500 hover:text-red-400">
-                    <Icon name="Trash2" className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <form onSubmit={handleAddMilestone} className="flex gap-2 pt-3">
-            <input
-              type="text"
-              value={newMilestoneTitle}
-              onChange={(e) => setNewMilestoneTitle(e.target.value)}
-              placeholder="Add key milestone..."
-              className="flex-1 px-3 py-2 rounded-xl bg-black/50 border border-zinc-700 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
-            />
-            <input
-              type="date"
-              value={newMilestoneDate}
-              onChange={(e) => setNewMilestoneDate(e.target.value)}
-              className="px-2 py-2 rounded-xl bg-black/50 border border-zinc-700 text-xs text-zinc-300 font-mono"
-            />
-            <Button size="sm" type="submit" iconLeft="Plus">
-              Add
-            </Button>
-          </form>
-        </Card>
-      </div>
-
-      {/* Bottom 2 Columns: Daily Habits & Notes */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Daily Habits */}
         <Card>
           <div className="flex items-center justify-between mb-4">
@@ -276,33 +188,34 @@ export const TrackRoadmap: React.FC<Props> = ({ experience, onUpdateExperience }
             </Button>
           </form>
         </Card>
+      </div>
 
-        {/* Tactical Notes */}
-        <Card className="flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Icon name="Edit3" className="w-4 h-4 text-zinc-400" />
-                <span>Executive Strategy & Interview Notes</span>
-              </h3>
-              <span className="text-[10px] text-zinc-500 font-mono">Auto-saved to LocalStorage</span>
-            </div>
-
-            <textarea
-              rows={6}
-              value={notes}
-              onChange={(e) => handleNotesChange(e.target.value)}
-              placeholder="Log key learnings, interviewer rubrics, counter-offer talking points..."
-              className="w-full p-3.5 rounded-2xl bg-black/60 border border-zinc-700 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 font-mono leading-relaxed resize-none"
-            />
+      {/* 3. Tactical Notes */}
+      <Card className="flex flex-col justify-between">
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Icon name="Edit3" className="w-4 h-4 text-zinc-400" />
+              <span>Executive Strategy & Interview Notes</span>
+            </h3>
+            <span className="text-[10px] text-zinc-500 font-mono">Auto-saved to LocalStorage</span>
           </div>
 
+          <textarea
+            rows={5}
+            value={notes}
+            onChange={(e) => handleNotesChange(e.target.value)}
+            placeholder="Log key learnings, interviewer rubrics, counter-offer talking points..."
+            className="w-full p-3.5 rounded-2xl bg-black/60 border border-zinc-700 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 font-mono leading-relaxed resize-none"
+          />
+        </div>
+
+        {experience.quotes && experience.quotes.length > 0 && (
           <div className="p-3.5 mt-4 rounded-xl bg-zinc-950/60 border border-zinc-800/80 text-xs text-zinc-400 italic">
             "{experience.quotes[0]}"
           </div>
-        </Card>
-      </div>
+        )}
+      </Card>
     </div>
   );
 };
-
