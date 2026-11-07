@@ -109,6 +109,28 @@ export const FirstJobPage: React.FC = () => {
         }
       />
 
+      {/* Campus Placement Readiness Board */}
+      <Card className="bg-gradient-to-r from-red-500/5 via-zinc-900/60 to-black border-red-500/20">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400">
+              <Icon name="GraduationCap" className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Campus Placement Readiness Board</h4>
+              <p className="text-[11px] text-zinc-400">Day 1 placement checklist: ATS resume score &gt; 85%, aptitude practice, and HR onboarding documentation.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => openLockScreen('first-job')}
+            className="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-semibold text-xs flex items-center gap-2 transition-colors"
+          >
+            <Icon name="Maximize2" className="w-3.5 h-3.5" />
+            <span>Launch Placement Screen</span>
+          </button>
+        </div>
+      </Card>
+
       {/* 3. First Job & Campus Placement Onboarding Workstation */}
       <section className="space-y-4">
         <FirstJobWorkstation experience={track} onUpdateExperience={updateExperience} />
