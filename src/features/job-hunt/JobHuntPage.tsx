@@ -109,6 +109,28 @@ export const JobHuntPage: React.FC = () => {
         }
       />
 
+      {/* 30-Day Outreach Velocity Card */}
+      <Card className="bg-gradient-to-r from-cyan-500/5 via-zinc-900/60 to-black border-cyan-500/20">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+              <Icon name="Send" className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">30-Day Outreach Velocity Engine</h4>
+              <p className="text-[11px] text-zinc-400">Target metrics: 3 tailored applications/day, 2 warm alumni connections/day, and 100% 48h follow-up rate.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => openLockScreen('job-hunt')}
+            className="px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-semibold text-xs flex items-center gap-2 transition-colors"
+          >
+            <Icon name="Maximize2" className="w-3.5 h-3.5" />
+            <span>Launch Sprint Lock Screen</span>
+          </button>
+        </div>
+      </Card>
+
       {/* 3. 30-Day Job Hunt Pipeline & Recruiter Outreach */}
       <section className="space-y-4">
         <JobHuntWorkstation experience={track} onUpdateExperience={updateExperience} />
