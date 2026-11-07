@@ -20,6 +20,7 @@ import { EmployeeDirectoryPage } from '../features/directory/EmployeeDirectoryPa
 import { LoginPage } from '../features/auth/LoginPage';
 import { SignupPage } from '../features/auth/SignupPage';
 import { useAppStore } from '../store/AppContext';
+import { RouteErrorBoundary } from '../components/feedback/RouteErrorBoundary';
 
 // Protected Route: Guarantees user must login/signup first before accessing workstations
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <AppLayout />,
+    errorElement: <RouteErrorBoundary />,
     children: [
       {
         index: true,

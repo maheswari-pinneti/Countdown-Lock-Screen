@@ -5,12 +5,11 @@ import { Button } from './Button';
 import { soundEngine } from '../../services/soundEngine';
 
 export const PasskeyModal: React.FC = () => {
-  const {
-    activePasskeyPromptProject,
-    closePasskeyPrompt,
-    confirmUnlockProject,
-    currentUser,
-  } = useAppStore();
+  const store = useAppStore();
+  const activePasskeyPromptProject = store?.activePasskeyPromptProject;
+  const closePasskeyPrompt = store?.closePasskeyPrompt;
+  const confirmUnlockProject = store?.confirmUnlockProject;
+  const currentUser = store?.currentUser;
 
   const [isVerifying, setIsVerifying] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,9 +22,11 @@ export const PasskeyModal: React.FC = () => {
     soundEngine.playKeyClick();
 
     try {
-      const success = await confirmUnlockProject(activePasskeyPromptProject.trackId);
-      if (!success) {
-        setError('Passkey verification failed. Please try again or re-authenticate.');
+      if (confirmUnlockProject) {
+        const success = await confirmUnlockProject(activePasskeyPromptProject.trackId);
+        if (!success) {
+          setError('Passkey verification failed. Please try again or re-authenticate.');
+        }
       }
     } catch {
       setError('Verification could not be completed.');

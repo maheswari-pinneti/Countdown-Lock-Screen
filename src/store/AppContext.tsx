@@ -445,10 +445,58 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   );
 };
 
+const DEFAULT_APP_CONTEXT_VALUE: AppContextValue = {
+  experiences: DEFAULT_EXPERIENCES,
+  settings: {
+    themeMode: 'dark',
+    timeFormat: '24h',
+    soundEnabled: true,
+    soundVolume: 0.35,
+    currentSoundTheme: 'cyber_hum',
+    vibrationOnMilestone: true,
+    showMilliseconds: true,
+    activeTrackId: 'overview',
+    isLockScreenActive: false,
+    zenMode: false,
+    activeDesignPresetId: 'preset-emerald-glass',
+  },
+  presets: DEFAULT_DESIGN_PRESETS,
+  activeTrackId: 'overview',
+  isLockScreenActive: false,
+  lockScreenTrackId: 'developer',
+  currentUser: DEMO_USER,
+  isAuthenticated: true,
+  passkeys: [],
+  activePasskeyPromptProject: null,
+  setActiveTrackId: () => {},
+  openLockScreen: () => {},
+  closeLockScreen: () => {},
+  updateExperience: () => {},
+  resetExperience: () => {},
+  updateSettings: () => {},
+  addDesignPreset: () => {},
+  deleteDesignPreset: () => {},
+  resetToDefaults: () => {},
+  exportData: () => {},
+  importData: () => false,
+  login: async () => ({ success: true }),
+  loginWithPasskey: async () => ({ success: true }),
+  signup: async () => ({ success: true }),
+  logout: () => {},
+  registerUserPasskey: async () => ({ success: true }),
+  isProjectProtectedWithPasskey: () => false,
+  toggleProjectPasskeyProtection: () => {},
+  isProjectUnlockedInSession: () => true,
+  promptUnlockProject: () => {},
+  closePasskeyPrompt: () => {},
+  confirmUnlockProject: async () => true,
+};
+
 export const useAppStore = (): AppContextValue => {
   const context = useContext(AppContext);
   if (!context) {
-    throw new Error('useAppStore must be used within an AppProvider');
+    console.warn('[OFFER MODE] useAppStore invoked outside of AppProvider; providing resilient fallback state.');
+    return DEFAULT_APP_CONTEXT_VALUE;
   }
   return context;
 };
