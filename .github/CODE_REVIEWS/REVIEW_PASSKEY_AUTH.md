@@ -25,3 +25,4 @@
 
 ### Recommended Follow-up Optimizations (Non-Blocking)
 - For multi-device synchronization in future cloud deployments, back passkey public keys with a secure cloud identity provider (e.g. Firebase Auth / WebAuthn RP backend).
+

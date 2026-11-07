@@ -35,3 +35,4 @@ Transforms the primary career dashboard into a structured **4-stage sequential w
 - [x] Verified interactive milestone check-offs update overall readiness percentage in real-time.
 - [x] Verified view mode toggle between Step Focus and View All Steps.
 - [x] Full production build passed (`npm run build`).
+

@@ -16,3 +16,4 @@ In sandboxed iframe environments, local development servers without SSL certific
 - [x] Catch blocks in `passkeyService.ts` handle `NotAllowedError` and `SecurityError` gracefully.
 - [x] Non-secure environments fall back to smooth client verification simulation.
 - [x] Session unlock tokens expire cleanly on browser close or user sign-out.
+

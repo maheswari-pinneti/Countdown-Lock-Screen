@@ -16,3 +16,4 @@ Users benefit from auditory confirmation when checking off milestones, locking/u
 - [x] Web Audio API oscillator plays pleasant chimes on milestone completion.
 - [x] TopNav audio button toggles sound globally and syncs with AppContext state.
 - [x] Backup export/import utility supports state backup as JSON file.
+

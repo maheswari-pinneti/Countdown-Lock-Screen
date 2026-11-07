@@ -22,3 +22,4 @@ Upon entering the dashboard, users can feel overwhelmed by seeing multiple caree
 - [x] Step 2 features an interactive checklist where ticking boxes updates readiness percentage in real-time.
 - [x] Step 3 provides a control board to toggle passkeys on/off per project.
 - [x] Step 4 launches full-screen focus screen with ambient gradients and keyboard shortcut guides.
+

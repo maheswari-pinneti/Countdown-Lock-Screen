@@ -38,3 +38,4 @@ Implements full-stack client-side authentication featuring native **WebAuthn Bio
 - [x] Tested login with credentials and 1-click demo access.
 - [x] Tested biometric passkey registration and verification flow.
 - [x] Verified project lock prompts when navigating to protected tracks.
+
