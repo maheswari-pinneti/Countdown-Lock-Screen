@@ -85,6 +85,41 @@ export interface InterviewStage {
 
 export type InterviewRound = InterviewStage;
 
+export type JobApplicationStage = 
+  | 'Wishlist'
+  | 'Applied'
+  | 'Recruiter Screen'
+  | 'Technical Round'
+  | 'Final Loop'
+  | 'Offer Received'
+  | 'Archived';
+
+export interface JobApplication {
+  id: string;
+  company: string;
+  role: string;
+  dateApplied: string;
+  stage: JobApplicationStage;
+  targetSalary?: string | number;
+  recruiterName?: string;
+  recruiterContact?: string;
+  interviewDate?: string;
+  notes: string;
+  jobUrl?: string;
+}
+
+export interface StarStoryItem {
+  id: string;
+  category: string;
+  question: string;
+  situation: string;
+  task: string;
+  action: string;
+  result: string;
+  keyLearnings?: string;
+  lastEdited?: string;
+}
+
 export interface DailyGoal {
   id: string;
   trackId: ExperienceTrackId;
@@ -281,6 +316,8 @@ export interface CareerExperience {
   passkeyProtected?: boolean;
   isPasskeyUnlocked?: boolean;
   passkeyName?: string;
+  applications?: JobApplication[];
+  starStories?: StarStoryItem[];
 }
 
 // Countdown Customizer / Studio Preset

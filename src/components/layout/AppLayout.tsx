@@ -21,6 +21,27 @@ export const AppLayout: React.FC = () => {
   const location = useLocation();
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+
+  // Capture beforeinstallprompt for PWA installation
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  }, []);
+
+  const handleInstallPwa = async () => {
+    if (!installPrompt) return;
+    soundEngine.playSuccessChime();
+    installPrompt.prompt();
+    const result = await installPrompt.userChoice;
+    if (result.outcome === 'accepted') {
+      setInstallPrompt(null);
+    }
+  };
 
   // Listen for custom in-app notifications dispatched by NotificationService
   useEffect(() => {
@@ -130,6 +151,33 @@ export const AppLayout: React.FC = () => {
       <div className="flex-1 flex flex-col min-w-0 lg:pl-72">
         {/* Top Navigation */}
         <TopNav onToggleMobileSidebar={() => setIsMobileSidebarOpen((prev) => !prev)} />
+
+        {/* PWA Install Banner */}
+        {installPrompt && (
+          <div className="bg-indigo-950/80 border-b border-indigo-500/30 px-4 py-2.5 flex items-center justify-between text-xs text-indigo-200 backdrop-blur-md">
+            <div className="flex items-center gap-2.5">
+              <span className="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                <Icon name="Laptop" className="w-3.5 h-3.5" />
+              </span>
+              <span>Install Offer Mode on your desktop or mobile device for offline countdowns & quick launch.</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleInstallPwa}
+                className="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-md transition-all"
+              >
+                Install App
+              </button>
+              <button
+                onClick={() => setInstallPrompt(null)}
+                className="p-1 text-slate-400 hover:text-white transition-colors"
+                title="Dismiss"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Main Content Viewport */}
         <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 max-w-7xl w-full mx-auto">

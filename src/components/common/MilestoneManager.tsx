@@ -14,6 +14,7 @@ import { soundEngine } from '../../services/soundEngine';
 import { Icon } from './Icon';
 import { Button } from './Button';
 import { Badge } from './Badge';
+import { generateIcsForMilestone, downloadIcsFile, getGoogleCalendarUrl } from '../../utils/calendarSync';
 
 interface Props {
   milestones: Milestone[];
@@ -449,6 +450,19 @@ export const MilestoneManager: React.FC<Props> = ({
                       Complete
                     </Button>
                   )}
+
+                  {/* Calendar Sync button */}
+                  <button
+                    onClick={() => {
+                      soundEngine.playKeyClick();
+                      const ics = generateIcsForMilestone(m, trackId);
+                      downloadIcsFile(`milestone-${m.id}.ics`, ics);
+                    }}
+                    className="p-1.5 rounded-lg text-zinc-400 hover:text-cyan-400 hover:bg-zinc-800 transition-colors"
+                    title="Export to iCalendar (.ics)"
+                  >
+                    <Icon name="Calendar" className="w-4 h-4" />
+                  </button>
 
                   {/* Edit button */}
                   <button

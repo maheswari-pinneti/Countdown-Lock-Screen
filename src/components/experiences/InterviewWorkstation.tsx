@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CareerExperience } from '../../types';
+import { CareerExperience, StarStoryItem } from '../../types';
 import { Card } from '../common/Card';
 import { Icon } from '../common/Icon';
 import { Button } from '../common/Button';
@@ -10,14 +10,17 @@ interface Props {
   onUpdateExperience: (updated: CareerExperience) => void;
 }
 
-interface StarStory {
-  id: string;
-  question: string;
-  situation: string;
-  task: string;
-  action: string;
-  result: string;
-}
+const DEFAULT_STAR_STORIES: StarStoryItem[] = [
+  {
+    id: 'star-1',
+    category: 'Performance',
+    question: 'Tell me about a time you resolved a major performance crisis.',
+    situation: 'API latency spiking to 4.2s under high concurrency threatening SLA contracts.',
+    task: 'Cut p99 under 350ms without adding expensive server instances within 2 weeks.',
+    action: 'Identified N+1 queries using explain analyzers, introduced Redis cache with cache invalidation keys, and fixed database index hotspots.',
+    result: 'p99 latency dropped by 91% to 180ms, zero SLA breaches, saving $38k in monthly compute bills.',
+  },
+];
 
 const COMMON_STAR_QUESTIONS = [
   'Tell me about a time you faced a difficult technical disagreement.',
@@ -35,7 +38,7 @@ const REVERSE_QUESTIONS = [
   'What growth or mentorship opportunities exist for engineers looking to level up here?',
 ];
 
-export const InterviewWorkstation: React.FC<Props> = ({ experience }) => {
+export const InterviewWorkstation: React.FC<Props> = ({ experience, onUpdateExperience }) => {
   const [activeTab, setActiveTab] = useState<'star' | 'questions' | 'confidence'>('star');
   const [selectedQuestion, setSelectedQuestion] = useState(COMMON_STAR_QUESTIONS[0]);
 
@@ -52,29 +55,35 @@ export const InterviewWorkstation: React.FC<Props> = ({ experience }) => {
   const [result, setResult] = useState(
     'Reduced p99 latency by 91% (down to 180ms), zero SLA breaches, and wrote an engineering runbook adopted by 3 teams.'
   );
-  const [savedStories, setSavedStories] = useState<StarStory[]>([
-    {
-      id: 'star-1',
-      question: 'Tell me about a time you resolved a major performance crisis.',
-      situation: 'API latency spiking to 4.2s under high concurrency.',
-      task: 'Cut p99 under 350ms without adding expensive server instances.',
-      action: 'Identified N+1 queries, introduced Redis cache with cache invalidation keys.',
-      result: 'p99 dropped by 91% to 180ms, saving $38k in monthly compute bills.',
-    },
-  ]);
+  const savedStories: StarStoryItem[] = experience.starStories && experience.starStories.length > 0
+    ? experience.starStories
+    : DEFAULT_STAR_STORIES;
   const [copied, setCopied] = useState(false);
 
   const handleSaveStory = () => {
     soundEngine.playSuccessChime();
-    const newStory: StarStory = {
+    const newStory: StarStoryItem = {
       id: `star-${Date.now()}`,
+      category: 'Behavioral',
       question: selectedQuestion,
       situation,
       task,
       action,
       result,
+      lastEdited: new Date().toISOString().split('T')[0],
     };
-    setSavedStories([newStory, ...savedStories]);
+    onUpdateExperience({
+      ...experience,
+      starStories: [newStory, ...savedStories],
+    });
+  };
+
+  const handleDeleteStory = (id: string) => {
+    soundEngine.playKeyClick();
+    onUpdateExperience({
+      ...experience,
+      starStories: savedStories.filter((s) => s.id !== id),
+    });
   };
 
   const handleCopyStory = () => {
@@ -284,18 +293,27 @@ export const InterviewWorkstation: React.FC<Props> = ({ experience }) => {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-amber-400">{story.question}</span>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      `[S]: ${story.situation}\n[T]: ${story.task}\n[A]: ${story.action}\n[R]: ${story.result}`
-                    );
-                    soundEngine.playKeyClick();
-                  }}
-                  className="text-[11px] text-zinc-400 hover:text-white flex items-center gap-1"
-                >
-                  <Icon name="Copy" className="w-3 h-3" />
-                  <span>Copy</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `[S]: ${story.situation}\n[T]: ${story.task}\n[A]: ${story.action}\n[R]: ${story.result}`
+                      );
+                      soundEngine.playKeyClick();
+                    }}
+                    className="text-[11px] text-zinc-400 hover:text-white flex items-center gap-1"
+                  >
+                    <Icon name="Copy" className="w-3 h-3" />
+                    <span>Copy</span>
+                  </button>
+                  <button
+                    onClick={() => handleDeleteStory(story.id)}
+                    className="text-[11px] text-zinc-500 hover:text-red-400 transition-colors p-1"
+                    title="Delete story"
+                  >
+                    <Icon name="Trash2" className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-zinc-300">
                 <div className="p-2 rounded bg-black/40 border border-zinc-900">

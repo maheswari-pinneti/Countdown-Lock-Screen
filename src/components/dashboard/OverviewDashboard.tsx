@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { formatDisplayDate, formatCurrency } from '../../utils/date';
 import { SimpleKpiCards } from './SimpleKpiCards';
+import { AchievementsCenter } from './AchievementsCenter';
 
 interface Props {
   experiences: CareerExperience[];
@@ -364,6 +365,9 @@ export const OverviewDashboard: React.FC<Props> = ({
 
       {/* SimpleKPI Executive Metrics Grid */}
       <SimpleKpiCards experiences={experiences} onExploreTrack={onSelectExperience} />
+
+      {/* Career Achievement Vault */}
+      <AchievementsCenter experiences={experiences} />
 
       {/* The 5 Independent Career Experiences Grid */}
       <section className="space-y-6">

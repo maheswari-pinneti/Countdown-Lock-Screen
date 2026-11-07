@@ -23,7 +23,19 @@ export const DEFAULT_SETTINGS: AppSettings = {
 export const loadExperiences = (): CareerExperience[] => {
   const experiences = getStoredItem<CareerExperience[]>(STORAGE_KEY_EXPERIENCES, DEFAULT_EXPERIENCES);
   if (Array.isArray(experiences) && experiences.length === 5) {
-    return experiences;
+    // Robust Schema Migration & Recovery: ensure each experience maintains backward compatibility
+    return experiences.map((exp, idx) => {
+      const defaultExp = DEFAULT_EXPERIENCES[idx] || DEFAULT_EXPERIENCES.find((d) => d.id === exp.id);
+      return {
+        ...defaultExp,
+        ...exp,
+        milestones: Array.isArray(exp.milestones) ? exp.milestones : defaultExp?.milestones || [],
+        dailyGoals: Array.isArray(exp.dailyGoals) ? exp.dailyGoals : defaultExp?.dailyGoals || [],
+        interviewPipeline: Array.isArray(exp.interviewPipeline) ? exp.interviewPipeline : defaultExp?.interviewPipeline || [],
+        applications: Array.isArray(exp.applications) ? exp.applications : defaultExp?.applications || [],
+        starStories: Array.isArray(exp.starStories) ? exp.starStories : defaultExp?.starStories || [],
+      };
+    });
   }
   return DEFAULT_EXPERIENCES;
 };

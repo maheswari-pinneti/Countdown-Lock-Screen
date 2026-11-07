@@ -20,6 +20,7 @@ import {
 } from '../../utils/date';
 import { ExperienceTrackId, CareerExperience } from '../../types';
 import { SimpleKpiCards } from '../../components/dashboard/SimpleKpiCards';
+import { AchievementsCenter } from '../../components/dashboard/AchievementsCenter';
 
 interface ExperienceCardConfig {
   id: ExperienceTrackId;
@@ -511,6 +512,9 @@ export const OverviewPage: React.FC = () => {
 
       {/* SimpleKPI Executive KPI Cards */}
       <SimpleKpiCards experiences={experiences} />
+
+      {/* Career Achievement Vault */}
+      <AchievementsCenter experiences={experiences} />
 
       {/* Interactive Step-by-Step Navigation Stepper */}
       <section className="space-y-3">

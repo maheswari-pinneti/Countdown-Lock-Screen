@@ -5,6 +5,7 @@ import { soundEngine } from '../../services/soundEngine';
 import { Icon } from '../common/Icon';
 import { Button } from '../common/Button';
 import { Badge } from '../common/Badge';
+import { generateIcsForCareerTrack, downloadIcsFile } from '../../utils/calendarSync';
 
 interface Props {
   experience: CareerExperience;
@@ -166,6 +167,21 @@ export const ModuleHeroHeader: React.FC<Props> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+            <Button
+              size="sm"
+              variant="secondary"
+              iconLeft="Calendar"
+              onClick={() => {
+                soundEngine.playSuccessChime();
+                const ics = generateIcsForCareerTrack(experience);
+                downloadIcsFile(`${experience.id}-deadlines.ics`, ics);
+              }}
+              className="flex-1 sm:flex-initial text-xs"
+              title="Download iCalendar (.ics) for Apple Calendar, Google Calendar, and Outlook"
+            >
+              Sync Calendar
+            </Button>
+
             <Button
               size="sm"
               variant="secondary"
