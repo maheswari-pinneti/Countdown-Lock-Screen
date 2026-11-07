@@ -1,4 +1,6 @@
 ---
+name: "Sound Engine Audio Feedback & Storage Sync"
+about: "Enhancement template for Web Audio feedback and localStorage synchronization"
 title: "[Enhancement] Sound Engine Audio Feedback and Local Storage Session Persistence"
 labels: ["enhancement", "audio", "storage"]
 assignees: ["PinnetiMaheswari97"]
@@ -16,4 +18,3 @@ Users benefit from auditory confirmation when checking off milestones, locking/u
 - [x] Web Audio API oscillator plays pleasant chimes on milestone completion.
 - [x] TopNav audio button toggles sound globally and syncs with AppContext state.
 - [x] Backup export/import utility supports state backup as JSON file.
-

@@ -1,4 +1,6 @@
 ---
+name: "WebAuthn Biometric Passkey Security"
+about: "Feature template for WebAuthn authentication and workstation protection"
 title: "[Feature] WebAuthn Biometric Passkey Integration and Workstation Access Control"
 labels: ["enhancement", "security", "auth"]
 assignees: ["PinnetiMaheswari97"]
@@ -20,4 +22,3 @@ Users need a modern, passwordless way to secure their sensitive career countdown
 - [x] Biometric prompt modal with visual scanner animation created in `src/components/common/PasskeyModal.tsx`.
 - [x] Passkey status badges (`+ Passkey`, `Passkey Protected`, `Passkey Open`) displayed on all project cards.
 - [x] Fallback verification simulation provided for environments without secure contexts or physical authenticators.
-
