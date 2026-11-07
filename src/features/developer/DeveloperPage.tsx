@@ -109,6 +109,28 @@ export const DeveloperPage: React.FC = () => {
         }
       />
 
+      {/* Distributed Systems Deep-Work Accelerator */}
+      <Card className="bg-gradient-to-r from-emerald-500/5 via-zinc-900/60 to-black border-emerald-500/20">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <Icon name="Cpu" className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Distributed Systems & Concurrency Accelerator</h4>
+              <p className="text-[11px] text-zinc-400">Deep-dive drills: Raft consensus, CAP theorem trade-offs, lock-free queues, and cache coherence.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => openLockScreen('developer')}
+            className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-semibold text-xs flex items-center gap-2 transition-colors"
+          >
+            <Icon name="Maximize2" className="w-3.5 h-3.5" />
+            <span>Launch Deep-Work Screen</span>
+          </button>
+        </div>
+      </Card>
+
       {/* 3. Specialized Algorithmic & Distributed Systems Workstation */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
