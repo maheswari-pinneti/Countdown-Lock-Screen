@@ -19,6 +19,7 @@ import {
   getDaysDifference
 } from '../../utils/date';
 import { ExperienceTrackId, CareerExperience } from '../../types';
+import { SimpleKpiCards } from '../../components/dashboard/SimpleKpiCards';
 
 interface ExperienceCardConfig {
   id: ExperienceTrackId;
@@ -507,6 +508,9 @@ export const OverviewPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* SimpleKPI Executive KPI Cards */}
+      <SimpleKpiCards experiences={experiences} />
 
       {/* Interactive Step-by-Step Navigation Stepper */}
       <section className="space-y-3">

@@ -117,7 +117,7 @@ export const AppLayout: React.FC = () => {
   return (
     <div
       className={`min-h-screen flex font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-200 ${
-        isLight ? 'theme-light bg-slate-50 text-slate-900' : 'bg-[#0B0F19] text-slate-100'
+        isLight ? 'theme-light bg-slate-50 text-slate-900' : 'bg-[#0B0F19] text-slate-100 cutting-mat-grid'
       }`}
     >
       {/* 1. Fixed Sidebar */}
@@ -153,13 +153,35 @@ export const AppLayout: React.FC = () => {
               <span>Every deadline deserves a plan. Every goal deserves progress.</span>
             </div>
 
-            <div className="flex items-center gap-4 text-xs font-normal">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-normal">
+              <a
+                href="/terms"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/terms');
+                }}
+                className="text-slate-400 hover:text-indigo-400 transition-colors"
+              >
+                Terms
+              </a>
+              <span>•</span>
+              <a
+                href="/privacy"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/privacy');
+                }}
+                className="text-slate-400 hover:text-indigo-400 transition-colors"
+              >
+                Privacy
+              </a>
+              <span>•</span>
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent('open-cookie-policy-popup'))}
                 className="text-slate-400 hover:text-indigo-400 transition-colors flex items-center gap-1 text-xs"
                 title="Review Cookie & Local Storage Policy"
               >
-                <span>🍪 Cookie Policy</span>
+                <span>🍪 Cookies</span>
               </button>
               <span>•</span>
               <button
@@ -171,15 +193,7 @@ export const AppLayout: React.FC = () => {
               </button>
               <span>•</span>
               <span>
-                <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">L</kbd> Focus Mode
-              </span>
-              <span>•</span>
-              <span>
-                <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">1-5</kbd> Switch
-              </span>
-              <span>•</span>
-              <span>
-                <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">0</kbd> Dashboard
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 border border-slate-700">L</kbd> Focus
               </span>
             </div>
           </div>

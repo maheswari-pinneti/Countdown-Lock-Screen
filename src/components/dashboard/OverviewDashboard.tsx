@@ -21,6 +21,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { formatDisplayDate, formatCurrency } from '../../utils/date';
+import { SimpleKpiCards } from './SimpleKpiCards';
 
 interface Props {
   experiences: CareerExperience[];
@@ -360,6 +361,9 @@ export const OverviewDashboard: React.FC<Props> = ({
           </div>
         </div>
       </section>
+
+      {/* SimpleKPI Executive Metrics Grid */}
+      <SimpleKpiCards experiences={experiences} onExploreTrack={onSelectExperience} />
 
       {/* The 5 Independent Career Experiences Grid */}
       <section className="space-y-6">

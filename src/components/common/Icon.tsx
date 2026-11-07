@@ -91,12 +91,28 @@ import {
   LogIn,
   LogOut,
   Mail,
+  TrendingDown,
+  Gauge,
+  LineChart,
+  Percent,
+  Shield,
+  Workflow,
+  SlidersHorizontal,
+  Grid,
   LucideProps,
 } from 'lucide-react';
 
 export type IconName =
   | 'Cpu'
   | 'TrendingUp'
+  | 'TrendingDown'
+  | 'Gauge'
+  | 'LineChart'
+  | 'Percent'
+  | 'Shield'
+  | 'Workflow'
+  | 'SlidersHorizontal'
+  | 'Grid'
   | 'Rocket'
   | 'Compass'
   | 'ShieldAlert'
@@ -195,6 +211,14 @@ export type IconName =
 const ICON_MAP: Record<IconName, React.ComponentType<LucideProps>> = {
   Cpu,
   TrendingUp,
+  TrendingDown,
+  Gauge,
+  LineChart,
+  Percent,
+  Shield,
+  Workflow,
+  SlidersHorizontal,
+  Grid,
   Rocket,
   Compass,
   ShieldAlert,
