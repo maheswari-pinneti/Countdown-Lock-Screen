@@ -69,9 +69,13 @@ export default {
         }
       },
       fontFamily: {
-        mono: ['JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'monospace'],
-        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'Space Grotesk', 'Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Geist Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'monospace'],
+        sans: ['Plus Jakarta Sans', 'Inter', 'Geist', 'Outfit', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'Space Grotesk', 'Outfit', 'Sora', 'sans-serif'],
+        outfit: ['Outfit', 'sans-serif'],
+        sora: ['Sora', 'sans-serif'],
+        geist: ['Geist', 'sans-serif'],
+        'geist-mono': ['Geist Mono', 'monospace'],
       },
       animation: {
         'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',

@@ -247,11 +247,11 @@ export const LockScreenModal: React.FC<Props> = ({ onClose }) => {
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 max-w-6xl mx-auto w-full text-center py-4">
         {/* Wall Clock Time */}
         <div className="flex flex-col items-center mb-6">
-          <div className="text-sm font-medium tracking-widest uppercase text-zinc-400 mb-1 flex items-center gap-2">
-            <Icon name="Clock" className="w-4 h-4 text-zinc-500" />
+          <div className="text-sm font-medium text-slate-400 mb-1 flex items-center gap-2">
+            <Icon name="Clock" className="w-4 h-4 text-slate-400" />
             <span>{formatDate(currentTime, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</span>
           </div>
-          <div className="text-4xl md:text-6xl font-light tracking-tight text-white/90 drop-shadow-sm font-mono">
+          <div className="text-4xl md:text-6xl font-normal tracking-tight text-white drop-shadow-sm tabular-nums">
             {formatTime(currentTime, settings.timeFormat)}
           </div>
         </div>
@@ -259,14 +259,14 @@ export const LockScreenModal: React.FC<Props> = ({ onClose }) => {
         {/* Target Badge & Role */}
         <div className="mb-6 flex flex-col items-center">
           <div
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold tracking-wider uppercase mb-3 border backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold mb-3 border backdrop-blur-md"
             style={{
               backgroundColor: `${currentExperience.theme.primary}15`,
               borderColor: `${currentExperience.theme.primary}40`,
               color: currentExperience.theme.primary,
             }}
           >
-            <Icon name="Sparkles" className="w-3 h-3" />
+            <Icon name="Sparkles" className="w-3.5 h-3.5" />
             <span>{currentExperience.badge}</span>
           </div>
 
@@ -274,12 +274,12 @@ export const LockScreenModal: React.FC<Props> = ({ onClose }) => {
             {currentExperience.targetRole}
           </h1>
 
-          <p className="text-sm md:text-lg text-slate-300 flex items-center justify-center gap-2 font-medium">
-            <Icon name="Briefcase" className="w-4 h-4 text-zinc-400" />
+          <p className="text-sm md:text-base text-slate-300 flex items-center justify-center gap-2 font-medium">
+            <Icon name="Briefcase" className="w-4 h-4 text-slate-400" />
             <span>{currentExperience.targetCompany}</span>
-            <span className="text-zinc-600">•</span>
+            <span className="text-slate-600">•</span>
             <span className="text-emerald-400 font-semibold">
-              ${(currentExperience.compensation.targetTotalComp / 1000).toFixed(0)}k TC Target
+              ${(currentExperience.compensation.targetTotalComp).toLocaleString()} / year Target
             </span>
           </p>
         </div>
@@ -287,74 +287,74 @@ export const LockScreenModal: React.FC<Props> = ({ onClose }) => {
         {/* The Mega Countdown Grid */}
         <div className="grid grid-cols-4 md:grid-cols-5 gap-3 md:gap-5 w-full max-w-3xl my-2">
           {/* Days */}
-          <div className="relative group p-4 md:p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center overflow-hidden">
+          <div className="relative group p-4 md:p-6 rounded-2xl bg-slate-900/80 border border-slate-800/80 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center overflow-hidden">
             <div
               className="absolute inset-x-0 top-0 h-1"
               style={{ backgroundColor: currentExperience.theme.primary }}
             />
-            <span className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-white font-mono">
-              {countdown.formatted.days}
+            <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white tabular-nums">
+              {countdown.days}
             </span>
-            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-zinc-400 mt-2">
+            <span className="text-xs font-medium text-slate-400 mt-2">
               Days
             </span>
           </div>
 
           {/* Hours */}
-          <div className="relative group p-4 md:p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center overflow-hidden">
+          <div className="relative group p-4 md:p-6 rounded-2xl bg-slate-900/80 border border-slate-800/80 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center overflow-hidden">
             <div
               className="absolute inset-x-0 top-0 h-1"
               style={{ backgroundColor: currentExperience.theme.primary }}
             />
-            <span className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-white font-mono">
+            <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white tabular-nums">
               {countdown.formatted.hours}
             </span>
-            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-zinc-400 mt-2">
+            <span className="text-xs font-medium text-slate-400 mt-2">
               Hours
             </span>
           </div>
 
           {/* Minutes */}
-          <div className="relative group p-4 md:p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center overflow-hidden">
+          <div className="relative group p-4 md:p-6 rounded-2xl bg-slate-900/80 border border-slate-800/80 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center overflow-hidden">
             <div
               className="absolute inset-x-0 top-0 h-1"
               style={{ backgroundColor: currentExperience.theme.primary }}
             />
-            <span className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-white font-mono">
+            <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white tabular-nums">
               {countdown.formatted.minutes}
             </span>
-            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-zinc-400 mt-2">
+            <span className="text-xs font-medium text-slate-400 mt-2">
               Minutes
             </span>
           </div>
 
           {/* Seconds */}
-          <div className="relative group p-4 md:p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center overflow-hidden">
+          <div className="relative group p-4 md:p-6 rounded-2xl bg-slate-900/80 border border-slate-800/80 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center overflow-hidden">
             <div
               className="absolute inset-x-0 top-0 h-1"
               style={{ backgroundColor: currentExperience.theme.primary }}
             />
             <span
-              className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight font-mono"
+              className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight tabular-nums"
               style={{ color: currentExperience.theme.primary }}
             >
               {countdown.formatted.seconds}
             </span>
-            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-zinc-400 mt-2">
+            <span className="text-xs font-medium text-slate-400 mt-2">
               Seconds
             </span>
           </div>
 
           {/* Milliseconds (hidden on small screens) */}
-          <div className="hidden md:flex relative group p-4 md:p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800/50 backdrop-blur-xl shadow-2xl flex-col items-center justify-center overflow-hidden">
+          <div className="hidden md:flex relative group p-4 md:p-6 rounded-2xl bg-slate-900/50 border border-slate-800/50 backdrop-blur-xl shadow-2xl flex-col items-center justify-center overflow-hidden">
             <div
               className="absolute inset-x-0 top-0 h-1 opacity-50"
               style={{ backgroundColor: currentExperience.theme.primary }}
             />
-            <span className="text-3xl md:text-4xl lg:text-5xl font-mono font-bold tracking-tight text-zinc-400">
+            <span className="text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-400 tabular-nums">
               {countdown.formatted.milliseconds}
             </span>
-            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-zinc-500 mt-2">
+            <span className="text-xs font-medium text-slate-500 mt-2">
               Millis
             </span>
           </div>
@@ -362,9 +362,9 @@ export const LockScreenModal: React.FC<Props> = ({ onClose }) => {
 
         {/* Progress Bar towards Target Date */}
         <div className="w-full max-w-xl my-4">
-          <div className="flex justify-between items-center text-xs text-zinc-400 mb-1.5 font-mono">
-            <span>Target Lock-In: {formatDate(currentExperience.targetOfferDate)}</span>
-            <span>{countdown.progressPercentage.toFixed(1)}% Window Elapsed</span>
+          <div className="flex justify-between items-center text-xs text-slate-400 mb-1.5 font-medium">
+            <span>Target Date: {formatDate(currentExperience.targetOfferDate)}</span>
+            <span>{countdown.progressPercentage.toFixed(0)}% elapsed</span>
           </div>
           <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
             <div

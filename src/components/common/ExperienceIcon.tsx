@@ -9,6 +9,15 @@ import {
   Terminal,
   Activity,
   Layers,
+  CalendarCheck,
+  Code,
+  GraduationCap,
+  ArrowLeftRight,
+  Target,
+  Sparkles,
+  Flame,
+  Award,
+  Clock,
   LucideProps
 } from 'lucide-react';
 
@@ -18,6 +27,31 @@ interface Props extends LucideProps {
 
 export const ExperienceIcon: React.FC<Props> = ({ name, ...props }) => {
   switch (name) {
+    case 'calendar-check':
+    case 'CalendarCheck':
+      return <CalendarCheck {...props} />;
+    case 'briefcase-business':
+    case 'Briefcase':
+      return <Briefcase {...props} />;
+    case 'code':
+    case 'Code':
+      return <Code {...props} />;
+    case 'graduation-cap':
+    case 'GraduationCap':
+      return <GraduationCap {...props} />;
+    case 'arrow-left-right':
+    case 'ArrowLeftRight':
+      return <ArrowLeftRight {...props} />;
+    case 'Target':
+      return <Target {...props} />;
+    case 'Sparkles':
+      return <Sparkles {...props} />;
+    case 'Flame':
+      return <Flame {...props} />;
+    case 'Award':
+      return <Award {...props} />;
+    case 'Clock':
+      return <Clock {...props} />;
     case 'Cpu':
       return <Cpu {...props} />;
     case 'TrendingUp':
@@ -38,4 +72,3 @@ export const ExperienceIcon: React.FC<Props> = ({ name, ...props }) => {
       return <Briefcase {...props} />;
   }
 };
-

@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon, IconName } from './Icon';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'gradient' | 'warm';
   size?: 'sm' | 'md' | 'lg';
   iconLeft?: IconName | string;
   iconRight?: IconName | string;
@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseClasses = 'inline-flex items-center justify-center font-bold tracking-wide rounded-xl transition-all duration-200 select-none active:scale-95 disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100';
+  const baseClasses = 'inline-flex items-center justify-center font-semibold tracking-normal rounded-xl transition-all duration-200 select-none active:scale-95 disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100';
 
   const sizeClasses = {
     sm: 'text-xs px-3 py-1.5 gap-1.5',
@@ -29,11 +29,13 @@ export const Button: React.FC<ButtonProps> = ({
   }[size];
 
   const variantClasses = {
-    primary: 'bg-emerald-500 hover:bg-emerald-400 text-black shadow-[0_0_20px_rgba(34,197,94,0.3)]',
-    secondary: 'bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700',
-    outline: 'bg-transparent hover:bg-white/5 text-zinc-200 border border-zinc-700 hover:border-zinc-500',
-    ghost: 'bg-transparent hover:bg-white/5 text-zinc-300 hover:text-white',
-    danger: 'bg-red-600 hover:bg-red-500 text-white shadow-[0_0_15px_rgba(239,68,68,0.3)]',
+    primary: 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-500/20',
+    gradient: 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white shadow-lg shadow-purple-500/25',
+    warm: 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:via-orange-600 hover:to-rose-600 text-white shadow-lg shadow-orange-500/25',
+    secondary: 'bg-slate-800/80 hover:bg-slate-700/80 text-white border border-slate-700/80 backdrop-blur-sm',
+    outline: 'bg-transparent hover:bg-white/5 text-slate-200 border border-slate-700 hover:border-slate-500',
+    ghost: 'bg-transparent hover:bg-white/5 text-slate-300 hover:text-white',
+    danger: 'bg-rose-600 hover:bg-rose-500 text-white shadow-md shadow-rose-600/30',
   }[variant];
 
   return (
@@ -56,4 +58,3 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-

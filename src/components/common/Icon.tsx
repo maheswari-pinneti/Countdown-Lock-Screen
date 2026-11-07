@@ -12,6 +12,11 @@ import {
   Sparkles,
   Lock,
   Unlock,
+  Target,
+  Heart,
+  Smile,
+  Star,
+  Sun,
   Volume2,
   VolumeX,
   Maximize,
@@ -64,6 +69,28 @@ import {
   GraduationCap,
   ArrowLeftRight,
   LayoutDashboard,
+  User,
+  Users,
+  UserCheck,
+  UserPlus,
+  Contact,
+  BadgeCheck,
+  Laptop,
+  Headphones,
+  BookOpen,
+  Bell,
+  Shuffle,
+  Search,
+  Filter,
+  Share2,
+  CheckSquare,
+  Fingerprint,
+  Key,
+  KeyRound,
+  ShieldCheck,
+  LogIn,
+  LogOut,
+  Mail,
   LucideProps,
 } from 'lucide-react';
 
@@ -78,6 +105,11 @@ export type IconName =
   | 'Activity'
   | 'Layers'
   | 'Sparkles'
+  | 'Target'
+  | 'Heart'
+  | 'Smile'
+  | 'Star'
+  | 'Sun'
   | 'Lock'
   | 'Unlock'
   | 'Volume2'
@@ -136,7 +168,29 @@ export type IconName =
   | 'Edit3'
   | 'Save'
   | 'Palette'
-  | 'Layout';
+  | 'Layout'
+  | 'User'
+  | 'Users'
+  | 'UserCheck'
+  | 'UserPlus'
+  | 'Contact'
+  | 'BadgeCheck'
+  | 'Laptop'
+  | 'Headphones'
+  | 'BookOpen'
+  | 'Bell'
+  | 'Shuffle'
+  | 'Search'
+  | 'Filter'
+  | 'Share2'
+  | 'CheckSquare'
+  | 'Fingerprint'
+  | 'Key'
+  | 'KeyRound'
+  | 'ShieldCheck'
+  | 'LogIn'
+  | 'LogOut'
+  | 'Mail';
 
 const ICON_MAP: Record<IconName, React.ComponentType<LucideProps>> = {
   Cpu,
@@ -151,6 +205,11 @@ const ICON_MAP: Record<IconName, React.ComponentType<LucideProps>> = {
   Sparkles,
   Lock,
   Unlock,
+  Target,
+  Heart,
+  Smile,
+  Star,
+  Sun,
   Volume2,
   VolumeX,
   Maximize,
@@ -203,6 +262,28 @@ const ICON_MAP: Record<IconName, React.ComponentType<LucideProps>> = {
   GraduationCap,
   ArrowLeftRight,
   LayoutDashboard,
+  User,
+  Users,
+  UserCheck,
+  UserPlus,
+  Contact,
+  BadgeCheck,
+  Laptop,
+  Headphones,
+  BookOpen,
+  Bell,
+  Shuffle,
+  Search,
+  Filter,
+  Share2,
+  CheckSquare,
+  Fingerprint,
+  Key,
+  KeyRound,
+  ShieldCheck,
+  LogIn,
+  LogOut,
+  Mail,
   'calendar-check': CalendarCheck,
   'briefcase-business': Briefcase,
   'code': Code,

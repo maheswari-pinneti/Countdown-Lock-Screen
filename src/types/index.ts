@@ -9,15 +9,64 @@ export type ExperienceId = ExperienceTrackId;
 
 export type MilestoneCategory = 'prep' | 'interview' | 'portfolio' | 'application' | 'negotiation' | 'decision';
 export type MilestoneStatus = 'todo' | 'in_progress' | 'completed';
+export type MilestonePriority = 'low' | 'medium' | 'high' | 'urgent';
 
 export interface Milestone {
   id: string;
   trackId: ExperienceTrackId;
   title: string;
-  deadline: string; // ISO 8601 date string
+  description?: string;
+  deadline: string; // ISO 8601 date string or YYYY-MM-DD
+  dueDate?: string; // Standard due date representation
   completed: boolean;
+  priority: MilestonePriority;
   category: MilestoneCategory;
   notes?: string;
+}
+
+export type DeadlineStatus = 'future' | 'today' | 'urgent' | 'expired' | 'invalid';
+
+export interface CountdownGoalConfig {
+  goalName: string;
+  goalDescription: string;
+  targetCompany: string;
+  targetJobRole: string;
+  startDate: string; // YYYY-MM-DD
+  deadlineDate: string; // YYYY-MM-DD
+  deadlineTime: string; // HH:mm
+  timeZone: string; // IANA e.g. "UTC", "America/New_York"
+  motivationalMessage: string;
+  selectedExperience: ExperienceTrackId;
+}
+
+export interface CountdownEngineResult {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  milliseconds: number;
+  totalSeconds: number;
+  totalMilliseconds: number;
+  isExpired: boolean;
+  isToday: boolean;
+  isUrgent: boolean;
+  deadlineStatus: DeadlineStatus;
+  statusLabel: string;
+  formatted: {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+    milliseconds: string;
+    compact: string;
+  };
+  timeRemainingText: string;
+  timelineProgressPercentage: number;
+  milestoneProgressPercentage: number;
+  compositeProgressPercentage: number;
+  targetTimestamp: number;
+  targetDateFormatted: string;
+  timeZone: string;
 }
 
 export type InterviewStageStatus = 'upcoming' | 'passed' | 'review' | 'pending' | 'rejected';
@@ -193,8 +242,32 @@ export interface CareerExperience {
   theme: ExperienceTheme;
   targetRole: string;
   targetCompany: string;
-  targetOfferDate: string; // ISO 8601
+  targetOfferDate: string; // ISO 8601 or YYYY-MM-DD
   startDateIso: string;
+  deadlineTime?: string; // HH:mm
+  timeZone?: string; // IANA e.g. "UTC", "America/New_York"
+  goalDescription?: string;
+  motivationalMessage?: string;
+  // Module 1: Interview Countdown specific form fields
+  interviewType?: 'Technical' | 'HR' | 'Coding' | 'Managerial' | 'Other';
+  prepNotes?: string;
+  // Module 2: 30-Day Job Hunt Sprint specific form fields
+  preferredLocation?: string;
+  targetSalary?: number | string;
+  targetCompanies?: string;
+  // Module 3: Developer Skill Upgrade specific form fields
+  currentSkillLevel?: 'Beginner' | 'Intermediate' | 'Advanced';
+  selectedTechnology?: 'React' | 'JavaScript' | 'TypeScript' | 'Node.js' | 'Python' | 'SQL' | 'DSA' | 'System Design';
+  dailyStudyDuration?: string;
+  // Module 4: First Job Countdown specific form fields
+  collegeName?: string;
+  graduationYear?: number | string;
+  currentPrepLevel?: 'Beginner' | 'Intermediate' | 'Ready';
+  // Module 5: Career Switch Countdown specific form fields
+  currentJobRole?: string;
+  currentTechnology?: string;
+  targetTechnology?: string;
+  expectedSalary?: number | string;
   readinessScore: number;
   streakDays: number;
   compensation: CompensationPackage;
@@ -205,6 +278,9 @@ export interface CareerExperience {
   quotes: string[];
   notes: string;
   specialized: SpecializedExperienceData;
+  passkeyProtected?: boolean;
+  isPasskeyUnlocked?: boolean;
+  passkeyName?: string;
 }
 
 // Countdown Customizer / Studio Preset
@@ -260,3 +336,36 @@ export interface CountdownResult {
   };
   progressPercentage: number;
 }
+
+// User Profile & Authentication
+export interface UserProfile {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  hasPasskey: boolean;
+  passkeyRegisteredAt?: string;
+  passkeyName?: string;
+  createdAt: string;
+}
+
+// Passkey Credential Record
+export interface PasskeyRecord {
+  id: string;
+  name: string;
+  userId: string;
+  userEmail: string;
+  credentialId: string;
+  transports?: string[];
+  createdAt: string;
+  lastUsedAt?: string;
+}
+
+// Project Passkey Security Status
+export interface ProjectPasskeyStatus {
+  trackId: ExperienceTrackId;
+  isProtected: boolean;
+  isUnlocked: boolean;
+  unlockedAt?: string;
+}
+

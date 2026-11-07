@@ -18,15 +18,15 @@ export const Card: React.FC<CardProps> = ({
   const baseClasses = 'relative rounded-3xl p-6 transition-all duration-300';
 
   const variantClasses = {
-    default: 'bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl',
-    glass: 'bg-zinc-950/60 border border-white/10 backdrop-blur-2xl shadow-2xl',
-    terminal: 'bg-stone-950 border border-amber-500/30 font-mono shadow-[0_0_20px_rgba(255,153,0,0.1)]',
-    outline: 'bg-transparent border border-zinc-800',
+    default: 'bg-slate-900/70 dark:bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-md',
+    glass: 'bg-slate-900/80 border border-white/10 backdrop-blur-2xl shadow-xl',
+    terminal: 'bg-slate-900/90 border border-indigo-500/30 shadow-md',
+    outline: 'bg-transparent border border-slate-800',
   }[variant];
 
   const glowStyle = hoverGlow && accentColor
     ? {
-        boxShadow: `0 0 25px ${accentColor}15`,
+        boxShadow: `0 8px 30px -8px ${accentColor}25`,
       }
     : {};
 
@@ -41,12 +41,13 @@ export const Card: React.FC<CardProps> = ({
     >
       {accentColor && (
         <div
-          className="absolute inset-x-8 top-0 h-1 rounded-t-full opacity-70"
-          style={{ backgroundColor: accentColor }}
+          className="absolute inset-x-8 top-0 h-1 rounded-t-full opacity-80"
+          style={{
+            background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
+          }}
         />
       )}
       {children}
     </div>
   );
 };
-

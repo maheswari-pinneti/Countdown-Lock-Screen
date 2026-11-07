@@ -1,45 +1,140 @@
-/* Global Theme Variables & Scanline Overlays */
+/* Global Modern Theme Variables & Gradient Styling */
 
 :root {
-  --color-bg-primary: #000000;
-  --color-surface-card: #0d1117;
-  --color-border-subtle: #21262d;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Space Grotesk', sans-serif;
+  --color-bg-primary: #0B0F19;
+  --color-bg-secondary: #111827;
+  --color-surface-card: #141D2F;
+  --color-border-subtle: #1F293D;
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-accent-indigo: #6366F1;
+  --color-accent-cyan: #06B6D4;
+  --color-accent-emerald: #10B981;
+  --color-accent-amber: #F59E0B;
+  --color-accent-rose: #F43F5E;
+  
+  /* Friendly readable typography */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+  --font-sora: 'Sora', sans-serif;
 }
 
+/* Light Theme Variables */
+.theme-light {
+  --color-bg-primary: #F8FAFC;
+  --color-bg-secondary: #F1F5F9;
+  --color-surface-card: #FFFFFF;
+  --color-border-subtle: #E2E8F0;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748B;
+  --color-accent-indigo: #4F46E5;
+  --color-accent-cyan: #0284C7;
+}
+
+.theme-light body {
+  background-color: #F8FAFC;
+  color: #0F172A;
+}
+
+/* Persona accent tokens */
 .theme-developer {
-  --theme-accent: #22c55e;
-  --theme-accent-glow: rgba(34, 197, 94, 0.35);
+  --theme-accent: #10B981;
+  --theme-accent-glow: rgba(16, 185, 129, 0.25);
 }
 
 .theme-interview {
-  --theme-accent: #ff9900;
-  --theme-accent-glow: rgba(255, 153, 0, 0.35);
+  --theme-accent: #F59E0B;
+  --theme-accent-glow: rgba(245, 158, 11, 0.25);
 }
 
 .theme-job-hunt {
-  --theme-accent: #06b6d4;
-  --theme-accent-glow: rgba(6, 182, 212, 0.35);
+  --theme-accent: #06B6D4;
+  --theme-accent-glow: rgba(6, 182, 212, 0.25);
 }
 
 .theme-career-switch {
-  --theme-accent: #10b981;
-  --theme-accent-glow: rgba(16, 185, 129, 0.35);
+  --theme-accent: #8B5CF6;
+  --theme-accent-glow: rgba(139, 92, 246, 0.25);
 }
 
 .theme-first-job {
-  --theme-accent: #ef4444;
-  --theme-accent-glow: rgba(239, 68, 68, 0.35);
+  --theme-accent: #F43F5E;
+  --theme-accent-glow: rgba(244, 63, 94, 0.25);
 }
 
-/* CRT Scanlines Utility */
+/* Ambient Radial Glow (Soft & Calm) */
 .scanlines-overlay {
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.3) 50%
-  );
-  background-size: 100% 4px;
+  background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
 }
 
+/* Smooth Focus Ring & Keyboard Navigation Styles */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #818CF8;
+  outline-offset: 2px;
+}
+
+/* Tabular digits for natural and stable number alignment */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Radiant Gradient Text Tokens */
+.gradient-text-warm {
+  background: linear-gradient(135deg, #F59E0B 0%, #EC4899 50%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-cool {
+  background: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #C084FC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-emerald {
+  background: linear-gradient(135deg, #34D399 0%, #10B981 50%, #06B6D4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-rose {
+  background: linear-gradient(135deg, #FB7185 0%, #F43F5E 50%, #FDA4AF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Radiant Card Glow Tokens */
+.glow-card-indigo {
+  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2);
+}
+
+.glow-card-amber {
+  box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.2);
+}
+
+.glow-card-emerald {
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2);
+}
+
+.glow-card-cyan {
+  box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.2);
+}
+
+.glow-card-rose {
+  box-shadow: 0 10px 30px -10px rgba(244, 63, 94, 0.2);
+}
+
+/* Skeleton Loading Shimmer Animation */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
