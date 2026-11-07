@@ -1,4 +1,4 @@
-import { THEME_PRESETS, getCanvasDimensions } from '../src/utils/wallpaperGenerator.ts';
+import { THEME_PRESETS, getCanvasDimensions } from './wallpaperHelper.js';
 
 let passed = 0;
 let failed = 0;

@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const suites = [
   { name: 'Core Countdown & Milestone Engine', script: 'test-suite.mjs', flags: [] },
   { name: 'Five Dedicated Career Modules Isolation', script: 'test-five-modules.mjs', flags: [] },
-  { name: 'Wallpaper Studio & 5 Themes Verification', script: 'test-wallpaper-and-themes.mjs', flags: ['--experimental-strip-types'] }
+  { name: 'Wallpaper Studio & 5 Themes Verification', script: 'test-wallpaper-and-themes.mjs', flags: [] }
 ];
 
 console.log(`
