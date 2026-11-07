@@ -30,6 +30,10 @@ import {
   ChevronRight,
   ChevronLeft,
   ChevronDown,
+  ChevronUp,
+  HelpCircle,
+  Info,
+  MessageSquare,
   Play,
   Pause,
   RotateCcw,
@@ -150,6 +154,10 @@ export type IconName =
   | 'ChevronRight'
   | 'ChevronLeft'
   | 'ChevronDown'
+  | 'ChevronUp'
+  | 'HelpCircle'
+  | 'Info'
+  | 'MessageSquare'
   | 'Play'
   | 'Pause'
   | 'RotateCcw'
@@ -247,6 +255,10 @@ const ICON_MAP: Record<IconName, React.ComponentType<LucideProps>> = {
   ChevronRight,
   ChevronLeft,
   ChevronDown,
+  ChevronUp,
+  HelpCircle,
+  Info,
+  MessageSquare,
   Play,
   Pause,
   RotateCcw,

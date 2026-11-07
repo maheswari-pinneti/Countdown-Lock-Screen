@@ -13,7 +13,7 @@
   --color-accent-emerald: #10B981;
   --color-accent-amber: #F59E0B;
   --color-accent-rose: #F43F5E;
-  
+
   /* Friendly readable typography with modern pairings */
   --font-sans: 'Plus Jakarta Sans', 'Inter', 'Geist', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Space Grotesk', 'Plus Jakarta Sans', 'Outfit', sans-serif;
@@ -143,7 +143,7 @@ textarea:focus-visible {
 
 /* Aceternity & Magic UI Inspired Background Patterns */
 .cutting-mat-grid {
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
@@ -155,7 +155,7 @@ textarea:focus-visible {
 }
 
 .subtle-mesh-glow {
-  background: 
+  background:
     radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
     radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.10) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.10) 0px, transparent 50%),
@@ -194,4 +194,3 @@ textarea:focus-visible {
 .sparkline-cyan-glow {
   filter: drop-shadow(0 2px 6px rgba(6, 182, 212, 0.45));
 }
-
