@@ -109,6 +109,28 @@ export const CareerSwitchPage: React.FC = () => {
         }
       />
 
+      {/* Career Transition Capstone Engine */}
+      <Card className="bg-gradient-to-r from-emerald-500/5 via-zinc-900/60 to-black border-emerald-500/20">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <Icon name="Briefcase" className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Career Transition Capstone Engine</h4>
+              <p className="text-[11px] text-zinc-400">Pivoting framework: transferable skill mapping, production capstone deployment, and senior peer code reviews.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => openLockScreen('career-switch')}
+            className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-semibold text-xs flex items-center gap-2 transition-colors"
+          >
+            <Icon name="Maximize2" className="w-3.5 h-3.5" />
+            <span>Launch Transition Screen</span>
+          </button>
+        </div>
+      </Card>
+
       {/* 3. Career Switch & Transferable Skills Workstation */}
       <section className="space-y-4">
         <CareerSwitchWorkstation experience={track} onUpdateExperience={updateExperience} />
