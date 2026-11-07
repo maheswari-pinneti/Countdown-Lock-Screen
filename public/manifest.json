@@ -1,0 +1,19 @@
+{
+  "name": "OFFER MODE — Career Countdown & Lock Screen Hub",
+  "short_name": "OFFER MODE",
+  "description": "Production-ready career countdown workstation, milestone tracking engine, and lock screen wallpaper studio.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#070B14",
+  "theme_color": "#070B14",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "career", "utilities"]
+}

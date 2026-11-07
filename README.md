@@ -1,5 +1,10 @@
 # 🎯 OFFER MODE — Executive Career Platform & Lock Screen Hub
 
+[![CI / Build & Verification](https://github.com/maheswari-pinneti/Countdown-Lock-Screen/actions/workflows/ci.yml/badge.svg)](https://github.com/maheswari-pinneti/Countdown-Lock-Screen/actions/workflows/ci.yml)
+[![Tests Passing](https://img.shields.io/badge/tests-136%20passing-brightgreen.svg)](https://github.com/maheswari-pinneti/Countdown-Lock-Screen)
+[![TypeScript 5.7](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
+[![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+
 **OFFER MODE** is a production-ready, web-first career countdown application, goal-tracking system, and lock-screen wallpaper studio designed for Google Chrome and modern web browsers.
 
 Every deadline deserves a plan. Every goal deserves progress.
@@ -94,19 +99,13 @@ Renders directly to HTML5 Canvas at full smartphone resolutions:
 ## 🧪 Testing & Quality Assurance
 
 ```bash
-# 1. Run Core Countdown & Milestone Engine Test Suite (38 tests)
-node scratch/test-suite.mjs
+# 1. Run Complete Test Suite (136 tests across all 3 suites)
+npm test
 
-# 2. Run Five Career Modules Isolation Test Suite (60 tests)
-node scratch/test-five-modules.mjs
+# 2. Strict TypeScript Typecheck
+npm run typecheck
 
-# 3. Run Wallpaper Studio & 5 Themes Test Suite (38 tests)
-node --experimental-strip-types scratch/test-wallpaper-and-themes.mjs
-
-# 4. Strict TypeScript Typecheck
-npx tsc --noEmit
-
-# 5. Production Web Build
+# 3. Production Web Build
 npm run build
 ```
 
@@ -116,7 +115,7 @@ npm run build
 
 ## 📱 Future Mobile Roadmap
 
-OFFER MODE is delivered as a complete web application first. All business logic, countdown math, milestone state handling, and data models are strictly decoupled from DOM APIs to enable direct sharing with a future React Native + Expo mobile application. See [FUTURE_MOBILE_ROADMAP.md](./FUTURE_MOBILE_ROADMAP.md) for architecture details.
+OFFER MODE is delivered as a complete web application first. All business logic, countdown math, milestone state handling, and data models are strictly decoupled from DOM APIs to enable direct sharing with a future React Native + Expo mobile application. See [FUTURE_MOBILE_ROADMAP.md](./docs/FUTURE_MOBILE_ROADMAP.md) for architecture details.
 
 ---
 
