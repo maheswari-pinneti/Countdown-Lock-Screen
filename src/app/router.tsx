@@ -19,6 +19,8 @@ import { PlatformShowcase } from '../features/showcase/PlatformShowcase';
 import { EmployeeDirectoryPage } from '../features/directory/EmployeeDirectoryPage';
 import { LoginPage } from '../features/auth/LoginPage';
 import { SignupPage } from '../features/auth/SignupPage';
+import { TermsPage } from '../features/legal/TermsPage';
+import { PrivacyPage } from '../features/legal/PrivacyPage';
 import { useAppStore } from '../store/AppContext';
 import { RouteErrorBoundary } from '../components/feedback/RouteErrorBoundary';
 
@@ -73,6 +75,22 @@ export const router = createBrowserRouter([
             <SignupPage />
           </GuestRoute>
         ),
+      },
+      {
+        path: 'terms',
+        element: <TermsPage />,
+      },
+      {
+        path: 'terms-and-conditions',
+        element: <Navigate to="/terms" replace />,
+      },
+      {
+        path: 'privacy',
+        element: <PrivacyPage />,
+      },
+      {
+        path: 'privacy-policy',
+        element: <Navigate to="/privacy" replace />,
       },
       {
         path: 'countdowns',

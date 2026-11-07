@@ -16,10 +16,17 @@ export const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPasskeyLoading, setIsPasskeyLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showForgotModal, setShowForgotModal] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
+
+    if (!email.trim() || !password) {
+      setErrorMessage('Please enter both your email address and password.');
+      return;
+    }
+
     setIsLoading(true);
     soundEngine.playKeyClick();
 
@@ -29,7 +36,7 @@ export const LoginPage: React.FC = () => {
         soundEngine.playSuccessChime();
         navigate('/');
       } else {
-        setErrorMessage(res.error || 'Failed to sign in. Please verify your details.');
+        setErrorMessage(res.error || 'Failed to sign in. Please verify your credentials.');
       }
     } catch {
       setErrorMessage('An unexpected error occurred while signing in.');
@@ -67,6 +74,13 @@ export const LoginPage: React.FC = () => {
     } else {
       setIsLoading(false);
     }
+  };
+
+  const handleFillDemoCreds = () => {
+    setEmail('alex@offermode.dev');
+    setPassword('offer2026');
+    setShowForgotModal(false);
+    soundEngine.playKeyClick();
   };
 
   return (
@@ -130,7 +144,7 @@ export const LoginPage: React.FC = () => {
 
           {/* Error Alert */}
           {errorMessage && (
-            <div className="mb-5 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+            <div className="mb-5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 animate-fadeIn">
               <Icon name="AlertTriangle" className="w-4 h-4 shrink-0 text-rose-400" />
               <span>{errorMessage}</span>
             </div>
@@ -159,9 +173,18 @@ export const LoginPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300">
+                  Password
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setShowForgotModal(true)}
+                  className="text-[11px] text-indigo-400 hover:text-indigo-300 transition-colors"
+                >
+                  Forgot password?
+                </button>
+              </div>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -198,14 +221,10 @@ export const LoginPage: React.FC = () => {
               </label>
               <button
                 type="button"
-                onClick={() => {
-                  setEmail('alex@offermode.dev');
-                  setPassword('offer2026');
-                  soundEngine.playKeyClick();
-                }}
+                onClick={handleFillDemoCreds}
                 className="text-indigo-400 hover:text-indigo-300 font-medium"
               >
-                Auto-fill credentials
+                Auto-fill demo credentials
               </button>
             </div>
 
@@ -255,7 +274,77 @@ export const LoginPage: React.FC = () => {
             </Link>
           </div>
         </div>
+
+        {/* Legal & Navigation Footer */}
+        <div className="flex items-center justify-center gap-4 text-xs text-slate-500">
+          <Link
+            to="/terms"
+            className="hover:text-slate-300 transition-colors"
+          >
+            Terms &amp; Conditions
+          </Link>
+          <span>•</span>
+          <Link
+            to="/privacy"
+            className="hover:text-slate-300 transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          <span>•</span>
+          <Link
+            to="/"
+            className="hover:text-slate-300 inline-flex items-center gap-1 transition-colors"
+          >
+            <Icon name="Home" className="w-3.5 h-3.5" />
+            <span>Dashboard</span>
+          </Link>
+        </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgotModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-sm p-6 rounded-3xl bg-slate-900 border border-indigo-500/30 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-white font-bold text-sm">
+                <Icon name="KeyRound" className="w-4 h-4 text-indigo-400" />
+                <span>Account Recovery</span>
+              </div>
+              <button
+                onClick={() => setShowForgotModal(false)}
+                className="text-slate-500 hover:text-white"
+              >
+                <Icon name="X" className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              OFFER MODE is local-first. Since passwords are authenticated locally in your browser, you can auto-fill the demo credentials or create a new account to access your workstations.
+            </p>
+            <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono space-y-1 text-slate-300">
+              <div>Email: <span className="text-emerald-400">alex@offermode.dev</span></div>
+              <div>Password: <span className="text-emerald-400">offer2026</span></div>
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button
+                variant="gradient"
+                size="sm"
+                onClick={handleFillDemoCreds}
+                className="flex-1 text-xs"
+              >
+                Auto-fill Credentials
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowForgotModal(false)}
+                className="text-xs text-slate-400"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

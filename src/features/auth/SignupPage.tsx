@@ -6,7 +6,7 @@ import { Button } from '../../components/common/Button';
 import { soundEngine } from '../../services/soundEngine';
 
 export const SignupPage: React.FC = () => {
-  const { signup, loginWithPasskey } = useAppStore();
+  const { signup } = useAppStore();
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
@@ -14,13 +14,39 @@ export const SignupPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [registerPasskey, setRegisterPasskey] = useState(true);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Real-time password strength calculation
+  const getPasswordStrength = (pass: string) => {
+    if (!pass) return { score: 0, label: 'Empty', color: 'bg-slate-700' };
+    let score = 0;
+    if (pass.length >= 6) score += 1;
+    if (pass.length >= 8) score += 1;
+    if (/[A-Z]/.test(pass)) score += 1;
+    if (/[0-9]/.test(pass)) score += 1;
+    if (/[^A-Za-z0-9]/.test(pass)) score += 1;
+
+    if (score <= 1) return { score: 20, label: 'Weak', color: 'bg-rose-500', text: 'text-rose-400' };
+    if (score <= 3) return { score: 50, label: 'Fair', color: 'bg-amber-500', text: 'text-amber-400' };
+    if (score <= 4) return { score: 75, label: 'Good', color: 'bg-cyan-500', text: 'text-cyan-400' };
+    return { score: 100, label: 'Strong', color: 'bg-emerald-500', text: 'text-emerald-400' };
+  };
+
+  const strength = getPasswordStrength(password);
+  const passwordsMatch = password.length > 0 && confirmPassword.length > 0 && password === confirmPassword;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
+
+    if (!agreeTerms) {
+      setErrorMessage('Please read and agree to the Terms & Conditions and Privacy Policy to proceed.');
+      soundEngine.playKeyClick();
+      return;
+    }
 
     if (password.length < 6) {
       setErrorMessage('Password must be at least 6 characters.');
@@ -111,7 +137,7 @@ export const SignupPage: React.FC = () => {
 
           {/* Error Alert */}
           {errorMessage && (
-            <div className="mb-5 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+            <div className="mb-5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 animate-fadeIn">
               <Icon name="AlertTriangle" className="w-4 h-4 shrink-0 text-rose-400" />
               <span>{errorMessage}</span>
             </div>
@@ -160,9 +186,16 @@ export const SignupPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300">
+                  Password
+                </label>
+                {password && (
+                  <span className={`text-[10px] font-mono font-semibold ${strength.text}`}>
+                    Strength: {strength.label}
+                  </span>
+                )}
+              </div>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -185,12 +218,29 @@ export const SignupPage: React.FC = () => {
                   <Icon name={showPassword ? 'EyeOff' : 'Eye'} className="w-4 h-4" />
                 </button>
               </div>
+
+              {/* Password strength bar */}
+              {password && (
+                <div className="mt-1.5 h-1 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-300 ${strength.color}`}
+                    style={{ width: `${strength.score}%` }}
+                  />
+                </div>
+              )}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Confirm Password
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-semibold text-slate-300">
+                  Confirm Password
+                </label>
+                {confirmPassword && (
+                  <span className={`text-[10px] font-mono ${passwordsMatch ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {passwordsMatch ? '✓ Passwords Match' : '✗ Passwords do not match'}
+                  </span>
+                )}
+              </div>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -198,11 +248,15 @@ export const SignupPage: React.FC = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Repeat your password"
-                  className="w-full px-3.5 py-2.5 pl-10 rounded-xl bg-slate-950/80 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                  className={`w-full px-3.5 py-2.5 pl-10 pr-10 rounded-xl bg-slate-950/80 border text-sm text-white placeholder-slate-500 focus:outline-none transition-colors ${
+                    confirmPassword && !passwordsMatch
+                      ? 'border-rose-500/60 focus:border-rose-500'
+                      : 'border-slate-800 focus:border-indigo-500'
+                  }`}
                 />
                 <Icon
                   name="Check"
-                  className="w-4 h-4 text-slate-500 absolute left-3.5 top-3"
+                  className={`w-4 h-4 absolute left-3.5 top-3 ${passwordsMatch ? 'text-emerald-400' : 'text-slate-500'}`}
                 />
               </div>
             </div>
@@ -221,10 +275,42 @@ export const SignupPage: React.FC = () => {
                     <Icon name="Fingerprint" className="w-4 h-4 text-indigo-400" />
                     <span>Register Device Passkey (Recommended)</span>
                   </span>
-                  <p className="text-slate-400 mt-0.5 font-normal leading-relaxed">
+                  <p className="text-slate-400 mt-0.5 font-normal leading-relaxed text-[11px]">
                     Enable biometric sign-in (Face ID, Touch ID, Windows Hello) and passkey protection for your projects.
                   </p>
                 </div>
+              </label>
+            </div>
+
+            {/* Terms and Conditions Agreement Checkbox */}
+            <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  required
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  className="mt-0.5 rounded border-slate-700 bg-slate-800 text-indigo-500 focus:ring-0"
+                />
+                <span className="text-xs text-slate-300 leading-relaxed">
+                  I agree to the{' '}
+                  <Link
+                    to="/terms"
+                    target="_blank"
+                    className="text-indigo-400 hover:text-indigo-300 font-semibold underline underline-offset-2"
+                  >
+                    Terms &amp; Conditions
+                  </Link>{' '}
+                  and{' '}
+                  <Link
+                    to="/privacy"
+                    target="_blank"
+                    className="text-indigo-400 hover:text-indigo-300 font-semibold underline underline-offset-2"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </span>
               </label>
             </div>
 
@@ -235,7 +321,7 @@ export const SignupPage: React.FC = () => {
               isLoading={isLoading}
               className="w-full shadow-lg shadow-purple-500/20 py-2.5 mt-2"
             >
-              Create Account
+              Create Account &amp; Unlock Workstations
             </Button>
           </form>
 
@@ -274,19 +360,31 @@ export const SignupPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Back to Workstation */}
-        <div className="text-center">
+        {/* Legal & Navigation Footer */}
+        <div className="flex items-center justify-center gap-4 text-xs text-slate-500">
+          <Link
+            to="/terms"
+            className="hover:text-slate-300 transition-colors"
+          >
+            Terms &amp; Conditions
+          </Link>
+          <span>•</span>
+          <Link
+            to="/privacy"
+            className="hover:text-slate-300 transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          <span>•</span>
           <Link
             to="/"
-            onClick={() => soundEngine.playKeyClick()}
-            className="text-xs text-slate-500 hover:text-slate-300 inline-flex items-center gap-1.5 transition-colors"
+            className="hover:text-slate-300 inline-flex items-center gap-1 transition-colors"
           >
-            <Icon name="ArrowRight" className="w-3.5 h-3.5 rotate-180" />
-            <span>Return to Dashboard</span>
+            <Icon name="Home" className="w-3.5 h-3.5" />
+            <span>Dashboard</span>
           </Link>
         </div>
       </div>
     </div>
   );
 };
-
