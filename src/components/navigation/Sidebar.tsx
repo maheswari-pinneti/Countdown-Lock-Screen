@@ -16,22 +16,48 @@ interface NavItem {
   badge?: string;
 }
 
-const SIDEBAR_ITEMS: NavItem[] = [
-  { title: 'Dashboard', path: '/', icon: 'LayoutDashboard' },
-  { title: 'My Countdowns', path: '/countdowns', icon: 'Clock' },
-  { title: 'Interview Countdown', path: '/interview', icon: 'CalendarCheck', badge: 'Prep' },
-  { title: '30-Day Job Hunt', path: '/job-hunt', icon: 'Briefcase', badge: '30d' },
-  { title: 'Developer Upgrade', path: '/developer', icon: 'Code', badge: 'Skills' },
-  { title: 'First Job Countdown', path: '/first-job', icon: 'GraduationCap', badge: 'Campus' },
-  { title: 'Career Switch', path: '/career-switch', icon: 'ArrowLeftRight', badge: 'Pivot' },
-  { title: 'Countdown Studio', path: '/countdown-studio', icon: 'Palette' },
-  { title: 'Saved Presets', path: '/saved-designs', icon: 'Layout' },
-  { title: 'Career Directory', path: '/directory', icon: 'Users', badge: 'Roles' },
-  { title: 'Showcase & Proof', path: '/showcase', icon: 'Sparkles' },
-  { title: 'Notifications', path: '/notifications', icon: 'Bell' },
-  { title: 'Passkey & Account', path: '/login', icon: 'Fingerprint', badge: 'Auth' },
-  { title: 'Settings', path: '/settings', icon: 'Settings' },
-  { title: 'Help & Docs', path: '/help', icon: 'BookOpen' },
+interface NavSection {
+  title: string;
+  items: NavItem[];
+}
+
+const NAV_SECTIONS: NavSection[] = [
+  {
+    title: '🌟 Life Command Center',
+    items: [
+      { title: 'Dashboard', path: '/', icon: 'LayoutDashboard' },
+      { title: 'Routines & Habits', path: '/life', icon: 'Sparkles', badge: 'Anti-Guilt' },
+      { title: 'Private Journal', path: '/journal', icon: 'BookHeart', badge: 'Mind' },
+      { title: 'Daily Planner', path: '/planner', icon: 'CalendarCheck', badge: 'MITs' },
+      { title: 'Focus Hub & Audio', path: '/focus', icon: 'Timer', badge: 'Flow' },
+    ],
+  },
+  {
+    title: '💼 Career Command Center',
+    items: [
+      { title: 'My Countdowns', path: '/countdowns', icon: 'Clock' },
+      { title: 'Learning Center', path: '/learning', icon: 'GraduationCap', badge: 'Skills' },
+      { title: 'Interview Countdown', path: '/interview', icon: 'CalendarCheck', badge: 'Prep' },
+      { title: '30-Day Job Hunt', path: '/job-hunt', icon: 'Briefcase', badge: 'CRM' },
+      { title: 'Developer Upgrade', path: '/developer', icon: 'Code', badge: 'Track' },
+      { title: 'First Tech Job', path: '/first-job', icon: 'GraduationCap', badge: 'Campus' },
+      { title: 'Career Switch', path: '/career-switch', icon: 'ArrowLeftRight', badge: 'Pivot' },
+      { title: 'Role Directory', path: '/directory', icon: 'Users', badge: 'Roles' },
+    ],
+  },
+  {
+    title: '🚀 Dreams, Finance & Studio',
+    items: [
+      { title: 'Finance & Runway', path: '/finance', icon: 'Wallet', badge: 'Runway' },
+      { title: 'Dreams & Bucket List', path: '/dreams', icon: 'Target', badge: 'Life' },
+      { title: 'Second Brain (PARA)', path: '/second-brain', icon: 'Brain', badge: 'Vault' },
+      { title: 'Countdown Studio', path: '/countdown-studio', icon: 'Palette' },
+      { title: 'Saved Presets', path: '/saved-designs', icon: 'Layout' },
+      { title: 'Platform Showcase', path: '/showcase', icon: 'Sparkles' },
+      { title: 'Settings & Security', path: '/settings', icon: 'Settings' },
+      { title: 'Help & Architecture', path: '/help', icon: 'BookOpen' },
+    ],
+  },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onCloseMobile }) => {
@@ -89,42 +115,46 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onCloseMobile }) => {
         </div>
 
         {/* Navigation Links List */}
-        <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto scrollbar-thin">
-          <div className="px-3 pb-2 text-xs font-semibold text-slate-400">
-            Navigation
-          </div>
-
-          {SIDEBAR_ITEMS.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              end={item.path === '/'}
-              onClick={() => {
-                soundEngine.playKeyClick();
-                onCloseMobile();
-              }}
-              className={({ isActive }) =>
-                `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 group ${
-                  isActive
-                    ? 'bg-gradient-to-r from-indigo-500/20 via-purple-500/15 to-pink-500/10 text-white border border-indigo-500/30 font-semibold shadow-sm'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                }`
-              }
-            >
-              <div className="flex items-center gap-2.5">
-                <Icon
-                  name={item.icon}
-                  className="w-4 h-4 transition-colors group-hover:text-indigo-400 text-slate-400"
-                />
-                <span className="truncate">{item.title}</span>
+        <nav className="flex-1 px-3 py-3 space-y-4 overflow-y-auto scrollbar-thin">
+          {NAV_SECTIONS.map((section) => (
+            <div key={section.title} className="space-y-1">
+              <div className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                {section.title}
               </div>
 
-              {item.badge && (
-                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
-                  {item.badge}
-                </span>
-              )}
-            </NavLink>
+              {section.items.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  end={item.path === '/'}
+                  onClick={() => {
+                    soundEngine.playKeyClick();
+                    onCloseMobile();
+                  }}
+                  className={({ isActive }) =>
+                    `flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 group ${
+                      isActive
+                        ? 'bg-gradient-to-r from-indigo-500/20 via-purple-500/15 to-pink-500/10 text-white border border-indigo-500/30 font-semibold shadow-sm'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                    }`
+                  }
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Icon
+                      name={item.icon}
+                      className="w-4 h-4 transition-colors group-hover:text-indigo-400 text-slate-400 flex-shrink-0"
+                    />
+                    <span className="truncate">{item.title}</span>
+                  </div>
+
+                  {item.badge && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-slate-800 border border-slate-700/80 text-slate-300 flex-shrink-0 ml-1">
+                      {item.badge}
+                    </span>
+                  )}
+                </NavLink>
+              ))}
+            </div>
           ))}
         </nav>
 

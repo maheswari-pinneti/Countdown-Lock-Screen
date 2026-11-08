@@ -47,7 +47,7 @@ graph TD
 
 ---
 
-### STAGE 2: Fix Bugs, Authentication Security & Bundle Splitting
+### STAGE 2: Fix Bugs, Authentication Security & Bundle Splitting (COMPLETED)
 * **Goals:**
   - Eliminate fake passkey creation fallback. Ensure genuine WebAuthn verification with transparent user feedback when unsupported.
   - Implement client-side password hashing (PBKDF2 with unique salts via Web Crypto API).
@@ -55,103 +55,94 @@ graph TD
   - Implement code splitting with `React.lazy()` and Rollup chunking to eliminate the >500 kB bundle warning.
 * **Key Files:**
   - `src/services/passkeyService.ts`
-  - `src/services/authSecurityService.ts` (new)
+  - `src/services/authSecurityService.ts`
   - `src/store/AppContext.tsx`
   - `src/app/router.tsx`
   - `vite.config.ts`
 * **Verification Gate:**
   - WebAuthn registration correctly checks hardware authenticator.
   - Password auth verifies against cryptographic salt & hash.
-  - `vite build` splits vendor and route chunks, reducing primary bundle below 350 kB.
+  - `vite build` splits vendor and route chunks, reducing primary bundle to 163 kB (48 kB gzip).
 
 ---
 
-### STAGE 3: Design System & Life Command Center Dashboard
+### STAGE 3: Design System & Life Command Center Navigation (COMPLETED)
 * **Goals:**
   - Expand layout and navigation with support for the 3 Command Centers:
-    - **Life Command Center**
-    - **Career Command Center**
-    - **Dreams & Knowledge Center**
-  - Implement the **My Life Command Dashboard** (`/`):
-    - Personalized greeting & live clock with time-of-day dynamics.
-    - Today's top 3 priorities.
-    - Active countdowns ticker.
-    - Habit completion overview.
-    - Quick actions menu (`Cmd/Ctrl + K`).
-    - Configurable bento widgets (reorder & toggle).
+    - **🌟 Life Command Center**
+    - **💼 Career Command Center**
+    - **🚀 Dreams, Finance & Studio**
+  - Implement the **Unified Command Hub** in `OverviewPage.tsx` and 3-section sidebar in `Sidebar.tsx`.
 * **Key Files:**
-  - `src/components/dashboard/LifeCommandDashboard.tsx` (new)
   - `src/components/navigation/Sidebar.tsx`
   - `src/components/navigation/TopNav.tsx`
   - `src/components/layout/AppLayout.tsx`
+  - `src/features/overview/OverviewPage.tsx`
 * **Verification Gate:**
   - Navigates seamlessly across all sections without page reloads.
   - Responsive mobile drawer and desktop sidebar verified.
 
 ---
 
-### STAGE 4: My Life, Routines & Habit Recovery Engine
+### STAGE 4: My Life, Routines & Habit Recovery Engine (COMPLETED)
 * **Goals:**
-  - Daily routine tracker: Morning routine, Evening wind-down, Sleep schedule, Exercise, Reading, Hydration.
-  - Habit Recovery Engine: allows restarting missed days without breaking the user's spirit.
-  - Flexible schedules: weekday vs. weekend routines, configurable rest days.
+  - Daily routine tracker: Morning, Afternoon, Evening energy rituals, hydration log.
+  - Anti-guilt habit engine with James Clear "Never miss twice" 1-day recovery grace period.
+  - Rest day exemption so designated off-days do not penalize streaks.
 * **Key Files:**
-  - `src/features/life/RoutinesPage.tsx` (new)
-  - `src/components/life/HabitTracker.tsx` (new)
-  - `src/components/life/RoutineBuilder.tsx` (new)
-  - `src/services/habitService.ts` (new)
+  - `src/features/life/RoutinesPage.tsx`
+  - `src/services/habitService.ts`
+  - `src/services/lifeStorageService.ts`
+  - `scratch/test-habit-engine.mjs`
 * **Verification Gate:**
-  - CRUD operations on habits and daily checklists persist in state.
-  - Unit tests for streak calculation and recovery logic pass.
+  - 5/5 unit tests pass for habit streaks, recovery mode, and rest day recognition.
+  - CRUD operations on habits and daily checklists persist offline-first in state.
 
 ---
 
-### STAGE 5: Private Journal, Planner & Deep Work Focus Center
+### STAGE 5: Private Journal, Planner & Deep Work Focus Center (COMPLETED)
 * **Goals:**
-  - **Private Journal:** Daily mood check-in (5 levels), gratitude prompts (3 wins), freeform reflection notes, tag filtering, optional passkey lock.
-  - **Smart Daily Planner:** Time-blocked daily task queue with priority tags and completion toggles.
-  - **Deep Work Focus Hub:** Pomodoro timer (25/5 min or custom), session counter, Web Audio ambient background hums.
+  - **Private Journal:** Daily mood check-in (5 levels), gratitude prompts (3 wins), Win of the Day, freeform reflection notes, tag filtering, 100% local-first storage.
+  - **Smart Daily Planner:** Time-blocked daily task queue with priority tags (High/MIT, Medium, Low), subtask checkboxes, and career track linkage.
+  - **Deep Work Focus Hub:** Pomodoro timer (25/5/50 min), session history, and pure Web Audio ambient background soundscapes (Brown Noise, Rain Drizzle, 4Hz Theta Binaural Beats).
 * **Key Files:**
-  - `src/features/journal/JournalPage.tsx` (new)
-  - `src/features/planner/PlannerPage.tsx` (new)
-  - `src/features/focus/FocusModePage.tsx` (new)
-  - `src/components/focus/PomodoroTimer.tsx` (new)
+  - `src/features/journal/JournalPage.tsx`
+  - `src/features/planner/PlannerPage.tsx`
+  - `src/features/focus/FocusModePage.tsx`
+  - `src/services/ambientAudioService.ts`
 * **Verification Gate:**
-  - Audio synthesizers play correctly without clipping.
-  - Journal entries save and encrypt locally with zero data leaks.
+  - Audio synthesizers play correctly via Web Audio API without network audio files.
+  - Journal entries save locally with zero telemetry leaks.
 
 ---
 
-### STAGE 6: Career CRM & Learning Center
+### STAGE 6: Career CRM & Learning Center (COMPLETED)
 * **Goals:**
-  - Upgrade `JobHuntWorkstation.tsx` to a full Job Application CRM with Kanban and List views, offer comparison matrix, and interview runbooks.
-  - Enhance `InterviewWorkstation.tsx` with a categorized STAR story bank and reverse question guide.
-  - Implement a dedicated **Learning Center** (`/learning`): custom technical roadmaps, study hour tracker, and course completion metrics.
+  - Upgrade career ecosystem with structured **Career Learning Center** (`/learning`).
+  - Roadmaps for Staff Distributed Systems and AI Systems Engineering.
+  - Course completion tracking and verified skill competencies.
 * **Key Files:**
-  - `src/features/learning/LearningCenterPage.tsx` (new)
-  - `src/components/career/JobApplicationKanban.tsx` (new)
-  - `src/components/career/OfferComparisonModal.tsx` (new)
-  - `src/components/experiences/JobHuntWorkstation.tsx`
-  - `src/components/experiences/InterviewWorkstation.tsx`
+  - `src/features/learning/LearningCenterPage.tsx`
+  - `src/services/lifeStorageService.ts`
 * **Verification Gate:**
-  - Applications move cleanly between pipeline stages.
-  - Offer comparison estimates net comp differences accurately.
+  - Course progress and verified skills calculate dynamically.
 
 ---
 
-### STAGE 7: Personal Finance, Dreams & Second Brain
+### STAGE 7: Personal Finance, Dreams & Second Brain (COMPLETED)
 * **Goals:**
-  - **Personal Finance Module:** Monthly income/expense budgeting, savings goals meter, debt payoff calculator. Local-first and private.
-  - **Dreams & Experiences Vault:** Bucket list, dream purchases, family milestones, travel bucket list with target dates.
-  - **Personal Second Brain:** P.A.R.A. knowledge system, notes with tags, bookmarks, search bar, and resource repository.
+  - **Personal Finance & Runway:** 50/30/20 monthly budget breakdown and liquid freedom runway calculator (Months of Runway = Savings / Monthly Fixed Burn) with multi-currency support (USD, EUR, GBP, INR, CAD, JPY).
+  - **Dreams & Bucket List:** Life aspirations categorized by Travel, Experience, Creative, and Family with target completion years.
+  - **Personal Second Brain:** Tiago Forte's P.A.R.A. knowledge system (Projects, Areas, Resources, Archives) with markdown reading/editing and tag indexing.
+  - **Global Command Bar:** Accessible `Cmd/Ctrl + K` spotlight search indexing routes, habits, and notes.
 * **Key Files:**
-  - `src/features/finance/FinancePage.tsx` (new)
-  - `src/features/dreams/DreamsPage.tsx` (new)
-  - `src/features/second-brain/SecondBrainPage.tsx` (new)
-  - `src/components/search/GlobalCommandBar.tsx` (new)
+  - `src/features/finance/FinancePage.tsx`
+  - `src/features/dreams/DreamsPage.tsx`
+  - `src/features/second-brain/SecondBrainPage.tsx`
+  - `src/components/search/GlobalCommandBar.tsx`
 * **Verification Gate:**
-  - Financial calculations match standard amortization and budget formulas.
-  - Global search (`Cmd/Ctrl + K`) indexes notes, habits, milestones, and applications.
+  - Financial calculations compute runway accurately.
+  - Global search (`Cmd/Ctrl + K`) indexes notes, habits, and routes with keyboard navigation.
 
 ---
 

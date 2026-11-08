@@ -510,6 +510,202 @@ export const OverviewPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Three Human-Centered Command Centers Portal */}
+      <section className="space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+              Unified Command Hub: Life, Career & Future
+            </h2>
+            <p className="text-xs text-text-muted">
+              Designed around anti-guilt psychology (&ldquo;never miss twice&rdquo;), structured execution, and financial runway.
+            </p>
+          </div>
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-global-command-bar'))}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700/80 text-xs font-semibold text-slate-300 hover:text-white hover:border-slate-500 transition-colors"
+          >
+            <Icon name="Search" className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Open Command Bar</span>
+            <kbd className="px-1.5 py-0.5 rounded text-[10px] bg-slate-800 text-slate-400 font-mono">⌘K</kbd>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* 1. Life Command Center Card */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-950/30 via-slate-900 to-slate-950 border border-emerald-500/30 shadow-lg space-y-4 hover:border-emerald-400/50 transition-all flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                  Daily Well-Being
+                </span>
+                <span className="text-xs font-bold text-emerald-400">Never Miss Twice</span>
+              </div>
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                🌟 Life Command Center
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Anti-guilt habit engine with 1-day grace recovery, daily hydration tracking, private local-first emotional journal, and synthesized Web Audio ambient flow.
+              </p>
+
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <button
+                  onClick={() => navigate('/life')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-emerald-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Habits & Routines</p>
+                  <p className="text-[10px] text-text-muted">Anti-guilt streaks</p>
+                </button>
+                <button
+                  onClick={() => navigate('/journal')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-purple-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Private Journal</p>
+                  <p className="text-[10px] text-text-muted">Gratitude & wins</p>
+                </button>
+                <button
+                  onClick={() => navigate('/planner')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-blue-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Daily Planner</p>
+                  <p className="text-[10px] text-text-muted">High-impact MITs</p>
+                </button>
+                <button
+                  onClick={() => navigate('/focus')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-teal-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Focus & Audio</p>
+                  <p className="text-[10px] text-text-muted">Theta & rain audio</p>
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigate('/life')}
+              className="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-md shadow-emerald-500/20"
+            >
+              <span>Open Life Command</span>
+              <Icon name="ArrowRight" className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* 2. Career Command Center Card */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/30 via-slate-900 to-slate-950 border border-indigo-500/30 shadow-lg space-y-4 hover:border-indigo-400/50 transition-all flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                  Career Acceleration
+                </span>
+                <span className="text-xs font-bold text-indigo-400">5 Tracks</span>
+              </div>
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                💼 Career Command Center
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                5 dedicated career countdown tracks, technical learning roadmaps (Distributed Systems, AI Architecture), STAR behavioral interview prep, and 30-day outreach CRM.
+              </p>
+
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <button
+                  onClick={() => navigate('/countdowns')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-indigo-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">All Countdowns</p>
+                  <p className="text-[10px] text-text-muted">Live lock clocks</p>
+                </button>
+                <button
+                  onClick={() => navigate('/learning')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-amber-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Learning Center</p>
+                  <p className="text-[10px] text-text-muted">Staff Eng & AI</p>
+                </button>
+                <button
+                  onClick={() => navigate('/job-hunt')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-cyan-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Job Hunt CRM</p>
+                  <p className="text-[10px] text-text-muted">Pipeline tracking</p>
+                </button>
+                <button
+                  onClick={() => navigate('/interview')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-orange-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Interview Prep</p>
+                  <p className="text-[10px] text-text-muted">STAR story vault</p>
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigate('/countdowns')}
+              className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-md shadow-indigo-600/20"
+            >
+              <span>Launch Workstations</span>
+              <Icon name="ArrowRight" className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* 3. Dreams, Finance & Studio Card */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-pink-950/30 via-slate-900 to-slate-950 border border-pink-500/30 shadow-lg space-y-4 hover:border-pink-400/50 transition-all flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-pink-500/15 text-pink-300 border border-pink-500/30">
+                  Freedom & Creativity
+                </span>
+                <span className="text-xs font-bold text-pink-400">P.A.R.A. Vault</span>
+              </div>
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                🚀 Dreams, Finance & Studio
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                50/30/20 financial runway calculator, personal dream bucket list with target years, Tiago Forte P.A.R.A. second-brain knowledge notes, and PNG wallpaper studio.
+              </p>
+
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <button
+                  onClick={() => navigate('/finance')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-emerald-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Finance & Runway</p>
+                  <p className="text-[10px] text-text-muted">Months of freedom</p>
+                </button>
+                <button
+                  onClick={() => navigate('/dreams')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-pink-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Dream Bucket List</p>
+                  <p className="text-[10px] text-text-muted">Travel & adventures</p>
+                </button>
+                <button
+                  onClick={() => navigate('/second-brain')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-indigo-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Second Brain</p>
+                  <p className="text-[10px] text-text-muted">P.A.R.A. notes</p>
+                </button>
+                <button
+                  onClick={() => navigate('/countdown-studio')}
+                  className="p-2.5 rounded-xl bg-slate-950/70 border border-white/5 hover:border-yellow-500/40 text-left transition-colors"
+                >
+                  <p className="text-xs font-bold text-white">Wallpaper Studio</p>
+                  <p className="text-[10px] text-text-muted">Lock screen PNGs</p>
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => navigate('/finance')}
+              className="w-full py-2.5 rounded-xl bg-pink-500 hover:bg-pink-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-md shadow-pink-500/20"
+            >
+              <span>Explore Freedom Vault</span>
+              <Icon name="ArrowRight" className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* SimpleKPI Executive KPI Cards */}
       <SimpleKpiCards experiences={experiences} />
 

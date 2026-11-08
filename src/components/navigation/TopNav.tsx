@@ -51,6 +51,14 @@ export const TopNav: React.FC<TopNavProps> = ({ onToggleMobileSidebar }) => {
       case '/signup': return 'Create Account';
       case '/countdowns':
       case '/my-lock-screens': return 'My Countdowns & Lock Screens';
+      case '/life': return 'Routines & Anti-Guilt Habits';
+      case '/journal': return 'Private Journal & Mindset Vault';
+      case '/planner': return 'Smart Daily Planner & MITs';
+      case '/focus': return 'Deep Work Focus Hub & Ambient Audio';
+      case '/learning': return 'Career Learning Center & Roadmaps';
+      case '/finance': return 'Personal Finance & Career Runway';
+      case '/dreams': return 'Dreams, Bucket List & Adventures';
+      case '/second-brain': return 'Personal Second Brain (P.A.R.A.)';
       case '/interview': return 'Interview Countdown';
       case '/job-hunt': return '30-Day Job Hunt Sprint';
       case '/developer': return 'Developer Skill Upgrade';
@@ -96,6 +104,22 @@ export const TopNav: React.FC<TopNavProps> = ({ onToggleMobileSidebar }) => {
 
       {/* Right: Wall Clock, Passkey Profile & Actions */}
       <div className="flex items-center gap-2 sm:gap-2.5">
+        {/* Global Spotlight / Command Bar Trigger */}
+        <button
+          onClick={() => {
+            soundEngine.playKeyClick();
+            window.dispatchEvent(new CustomEvent('open-global-command-bar'));
+          }}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-medium transition-all group shadow-sm"
+          title="Search Command Center (Ctrl+K or ⌘K)"
+        >
+          <Icon name="Search" className="w-3.5 h-3.5 text-indigo-400 group-hover:text-indigo-300" />
+          <span className="hidden md:inline text-slate-400 group-hover:text-slate-200">Search...</span>
+          <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-800 border border-slate-700 text-slate-400">
+            ⌘K
+          </kbd>
+        </button>
+
         {/* Career Personas Directory Pill */}
         <button
           onClick={() => {

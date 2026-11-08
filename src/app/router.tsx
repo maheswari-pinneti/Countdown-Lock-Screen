@@ -26,6 +26,16 @@ const SignupPage = React.lazy(() => import('../features/auth/SignupPage').then((
 const TermsPage = React.lazy(() => import('../features/legal/TermsPage').then((m) => ({ default: m.TermsPage })));
 const PrivacyPage = React.lazy(() => import('../features/legal/PrivacyPage').then((m) => ({ default: m.PrivacyPage })));
 
+// New Life, Mindset & Productivity Command Center Routes
+const RoutinesPage = React.lazy(() => import('../features/life/RoutinesPage').then((m) => ({ default: m.RoutinesPage })));
+const JournalPage = React.lazy(() => import('../features/journal/JournalPage').then((m) => ({ default: m.JournalPage })));
+const PlannerPage = React.lazy(() => import('../features/planner/PlannerPage').then((m) => ({ default: m.PlannerPage })));
+const FocusModePage = React.lazy(() => import('../features/focus/FocusModePage').then((m) => ({ default: m.FocusModePage })));
+const LearningCenterPage = React.lazy(() => import('../features/learning/LearningCenterPage').then((m) => ({ default: m.LearningCenterPage })));
+const FinancePage = React.lazy(() => import('../features/finance/FinancePage').then((m) => ({ default: m.FinancePage })));
+const DreamsPage = React.lazy(() => import('../features/dreams/DreamsPage').then((m) => ({ default: m.DreamsPage })));
+const SecondBrainPage = React.lazy(() => import('../features/second-brain/SecondBrainPage').then((m) => ({ default: m.SecondBrainPage })));
+
 // Protected Route: Guarantees user must login/signup first before accessing workstations
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAppStore();
@@ -101,6 +111,118 @@ export const router = createBrowserRouter([
             <MyLockScreensPage />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: 'life',
+        element: (
+          <ProtectedRoute>
+            <RoutinesPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'routines',
+        element: <Navigate to="/life" replace />,
+      },
+      {
+        path: 'habits',
+        element: <Navigate to="/life" replace />,
+      },
+      {
+        path: 'journal',
+        element: (
+          <ProtectedRoute>
+            <JournalPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'mindset',
+        element: <Navigate to="/journal" replace />,
+      },
+      {
+        path: 'planner',
+        element: (
+          <ProtectedRoute>
+            <PlannerPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'schedule',
+        element: <Navigate to="/planner" replace />,
+      },
+      {
+        path: 'focus',
+        element: (
+          <ProtectedRoute>
+            <FocusModePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'deep-work',
+        element: <Navigate to="/focus" replace />,
+      },
+      {
+        path: 'learning',
+        element: (
+          <ProtectedRoute>
+            <LearningCenterPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'skills',
+        element: <Navigate to="/learning" replace />,
+      },
+      {
+        path: 'roadmaps',
+        element: <Navigate to="/learning" replace />,
+      },
+      {
+        path: 'finance',
+        element: (
+          <ProtectedRoute>
+            <FinancePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'runway',
+        element: <Navigate to="/finance" replace />,
+      },
+      {
+        path: 'budget',
+        element: <Navigate to="/finance" replace />,
+      },
+      {
+        path: 'dreams',
+        element: (
+          <ProtectedRoute>
+            <DreamsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'bucket-list',
+        element: <Navigate to="/dreams" replace />,
+      },
+      {
+        path: 'second-brain',
+        element: (
+          <ProtectedRoute>
+            <SecondBrainPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'notes',
+        element: <Navigate to="/second-brain" replace />,
+      },
+      {
+        path: 'vault',
+        element: <Navigate to="/second-brain" replace />,
       },
       {
         path: 'my-lock-screens',

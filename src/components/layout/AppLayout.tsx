@@ -9,6 +9,7 @@ import { CookieConsentBanner } from '../common/CookieConsentBanner';
 import { CareerPersonasModal } from '../common/CareerPersonasModal';
 import { PasskeyModal } from '../common/PasskeyModal';
 import { RouteLoadingFallback } from '../common/RouteLoadingFallback';
+import { GlobalCommandBar } from '../search/GlobalCommandBar';
 import { Icon } from '../common/Icon';
 import { useHotkeys } from '../../hooks/useHotkeys';
 import { soundEngine } from '../../services/soundEngine';
@@ -18,12 +19,25 @@ export const AppLayout: React.FC = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activeToast, setActiveToast] = useState<{ title: string; message?: string } | null>(null);
   const [isPersonasModalOpen, setIsPersonasModalOpen] = useState(false);
+  const [isCommandBarOpen, setIsCommandBarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Global Command Bar shortcut (Ctrl+K or ⌘K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCommandBarOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Track window scroll for Back to Top button
   useEffect(() => {
@@ -67,12 +81,15 @@ export const AppLayout: React.FC = () => {
     };
 
     const handleOpenPersonas = () => setIsPersonasModalOpen(true);
+    const handleOpenCommandBar = () => setIsCommandBarOpen(true);
 
     window.addEventListener('offer-mode-notification', handleNotification);
     window.addEventListener('open-career-personas-modal', handleOpenPersonas);
+    window.addEventListener('open-global-command-bar', handleOpenCommandBar);
     return () => {
       window.removeEventListener('offer-mode-notification', handleNotification);
       window.removeEventListener('open-career-personas-modal', handleOpenPersonas);
+      window.removeEventListener('open-global-command-bar', handleOpenCommandBar);
     };
   }, []);
 
@@ -285,6 +302,12 @@ export const AppLayout: React.FC = () => {
 
       {/* Passkey Verification Modal */}
       <PasskeyModal />
+
+      {/* Global Spotlight / Command Bar (Ctrl+K) */}
+      <GlobalCommandBar
+        isOpen={isCommandBarOpen}
+        onClose={() => setIsCommandBarOpen(false)}
+      />
 
       {/* Active In-App Toast Alert */}
       {activeToast && (

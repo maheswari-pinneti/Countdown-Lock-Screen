@@ -406,3 +406,153 @@ export interface ProjectPasskeyStatus {
   unlockedAt?: string;
 }
 
+// ==========================================
+// MY LIFE, HABITS & ROUTINES
+// ==========================================
+export type HabitCategory = 'health' | 'mindset' | 'learning' | 'routine' | 'career';
+
+export interface HabitItem {
+  id: string;
+  title: string;
+  category: HabitCategory;
+  frequency: 'daily' | 'weekdays' | 'weekends' | 'custom';
+  targetDaysPerWeek: number;
+  streakCount: number;
+  longestStreak: number;
+  completedDates: string[]; // YYYY-MM-DD
+  icon?: string;
+  recoveryGraceDays?: number;
+  restDays?: number[];
+  createdAt: string;
+}
+
+export interface DailyRoutineItem {
+  id: string;
+  period: 'morning' | 'afternoon' | 'evening';
+  title: string;
+  timeEstimate?: string;
+  completed: boolean;
+  notes?: string;
+}
+
+export interface HydrationLog {
+  date: string;
+  glassesDrank: number;
+  targetGlasses: number;
+}
+
+// ==========================================
+// PRIVATE JOURNAL & EMOTIONAL WELL-BEING
+// ==========================================
+export type MoodScore = 1 | 2 | 3 | 4 | 5;
+
+export interface JournalEntry {
+  id: string;
+  date: string;
+  title: string;
+  content: string;
+  mood?: MoodScore;
+  moodTags?: string[];
+  gratitude?: [string, string, string];
+  winOfTheDay?: string;
+  tags?: string[];
+  isLocked?: boolean;
+  createdAt: string;
+}
+
+// ==========================================
+// LEARNING CENTER
+// ==========================================
+export interface LearningCourse {
+  id: string;
+  title: string;
+  provider: string;
+  topic: string;
+  totalHours: number;
+  completedHours: number;
+  status: 'In Progress' | 'Completed' | 'Planned';
+  certificateUrl?: string;
+  notes?: string;
+}
+
+export interface LearningRoadmap {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  skills: { name: string; level: 'Beginner' | 'Intermediate' | 'Advanced'; verified: boolean }[];
+  courses: LearningCourse[];
+  totalStudyHours: number;
+}
+
+// ==========================================
+// PERSONAL FINANCE & DREAMS TRACKER
+// ==========================================
+export interface BudgetCategory {
+  id: string;
+  name: string;
+  budgeted: number;
+  spent: number;
+  type: 'fixed' | 'flexible' | 'savings';
+}
+
+export interface SavingsGoal {
+  id: string;
+  title: string;
+  targetAmount: number;
+  currentAmount: number;
+  targetDate: string;
+  icon?: string;
+}
+
+export interface DreamBucketItem {
+  id: string;
+  category: 'travel' | 'purchase' | 'experience' | 'family' | 'creative';
+  title: string;
+  estimatedCost?: number;
+  targetYear?: string;
+  status: 'dreaming' | 'planning' | 'booked' | 'achieved';
+  notes?: string;
+}
+
+// ==========================================
+// PERSONAL SECOND BRAIN (P.A.R.A.)
+// ==========================================
+export type ParaFolder = 'projects' | 'areas' | 'resources' | 'archives';
+
+export interface SecondBrainNote {
+  id: string;
+  title: string;
+  folder: ParaFolder;
+  tags: string[];
+  content: string;
+  isPinned?: boolean;
+  isFavorite?: boolean;
+  lastModified: string;
+  resourceUrls?: string[];
+}
+
+// ==========================================
+// SMART PLANNER & FOCUS SESSIONS
+// ==========================================
+export interface PlannerTask {
+  id: string;
+  title: string;
+  priority: 'high' | 'medium' | 'low';
+  dueDate: string;
+  timeEstimate?: string;
+  completed: boolean;
+  trackId?: ExperienceTrackId | 'general' | 'overview';
+  subtasks?: { id: string; text: string; completed: boolean }[];
+}
+
+export interface FocusSession {
+  id: string;
+  date: string;
+  durationMinutes: number;
+  focusType: 'pomodoro' | 'deep_work' | 'study';
+  taskTitle?: string;
+  completed: boolean;
+}
+
+
