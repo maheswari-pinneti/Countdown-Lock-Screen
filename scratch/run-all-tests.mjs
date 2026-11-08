@@ -16,13 +16,14 @@ const suites = [
   { name: 'Calendar Integration & iCalendar Sync', script: 'test-calendar-sync.mjs', flags: [] },
   { name: 'Multi-Library Icon System (7 Providers)', script: 'test-icon-registry.mjs', flags: [] },
   { name: 'Authentication Security & Cryptography Engine', script: 'test-auth-security.mjs', flags: [] },
-  { name: 'Anti-Guilt Habit Engine & Streak Resilience', script: 'test-habit-engine.mjs', flags: [] }
+  { name: 'Anti-Guilt Habit Engine & Streak Resilience', script: 'test-habit-engine.mjs', flags: [] },
+  { name: 'Cookie Consent & Policy Persistence Engine', script: 'test-cookie-service.mjs', flags: [] }
 ];
 
 console.log(`
 ============================================================
 🎯 OFFER MODE MASTER VERIFICATION RUNNER
-Running 7 Test Suites across all 5 Career Workstations & Life Command Center...
+Running 8 Test Suites across all 5 Career Workstations & Life Command Center...
 ============================================================
 `);
 
@@ -44,7 +45,7 @@ for (const suite of suites) {
 
 console.log(`
 ============================================================
-🎉 ALL TESTS PASSED ACROSS ALL 7 TEST SUITES!
+🎉 ALL TESTS PASSED ACROSS ALL 8 TEST SUITES!
 ✓ Countdown engine precision verified
 ✓ 5 career track modules verified
 ✓ Wallpaper themes & canvas export verified
@@ -52,5 +53,6 @@ console.log(`
 ✓ Multi-library icon system verified across 7 providers
 ✓ Authentication security & cryptography engine verified
 ✓ Anti-guilt habit engine & streak resilience verified
+✓ Cookie consent & policy persistence verified
 ============================================================
 `);

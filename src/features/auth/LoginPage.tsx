@@ -92,10 +92,10 @@ export const LoginPage: React.FC = () => {
             <Icon name="Target" className="w-6 h-6 text-indigo-300" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-display">
-            Welcome to Offer Mode
+            Mahi - Countdown-Screen
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 font-normal">
-            Step 1: Sign in or register to unlock your countdown workstations and dashboard.
+            Personal Life, Career & Productivity Command Center
           </p>
         </div>
 

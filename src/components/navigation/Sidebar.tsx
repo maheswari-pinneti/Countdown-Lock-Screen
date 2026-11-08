@@ -94,13 +94,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onCloseMobile }) => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-base tracking-tight text-white font-display">
-                  Offer Mode
+                <span className="font-bold text-sm sm:text-base tracking-tight text-white font-display">
+                  Mahi - Countdown-Screen
                 </span>
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               </div>
-              <span className="text-xs text-slate-400 tracking-normal font-normal block">
-                Career Countdown Hub
+              <span className="text-xs text-indigo-400/90 tracking-normal font-medium block">
+                Career & Life Hub
               </span>
             </div>
           </NavLink>

@@ -92,9 +92,9 @@ export const TopNav: React.FC<TopNavProps> = ({ onToggleMobileSidebar }) => {
 
         <div>
           <div className="text-xs text-indigo-400 font-semibold flex items-center gap-1.5 hidden sm:flex">
-            <span>Welcome back</span>
+            <span>Mahi - Countdown-Screen</span>
             <span className="text-slate-400">•</span>
-            <span className="text-slate-400 font-normal">Personal Countdown Hub</span>
+            <span className="text-slate-400 font-normal">Command Center</span>
           </div>
           <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
             {getPageTitle(location.pathname)}

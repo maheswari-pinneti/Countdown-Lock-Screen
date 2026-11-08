@@ -1,7 +1,7 @@
-# Project Overview: OFFER MODE
+# Project Overview: Mahi - Countdown-Screen
 
 ## 1. Executive Summary
-**OFFER MODE** is a high-performance, human-centered **Personal Life, Career & Productivity Command Center**. It transforms career sprints, interview preparation, technical upskilling, and daily life routines from sources of anxiety into structured, visually engaging, and psychologically resilient daily habits.
+**Mahi - Countdown-Screen** (OFFER MODE) is a high-performance, human-centered **Personal Life, Career & Productivity Command Center**. It transforms career sprints, interview preparation, technical upskilling, and daily life routines from sources of anxiety into structured, visually engaging, and psychologically resilient daily habits.
 
 ## 2. Core Pillars
 1. **🌟 Life Command Center**: Anti-guilt habit tracking ("never miss twice"), morning/afternoon/evening routines, hydration, private emotional journal, and synthesized Web Audio cognitive flow.

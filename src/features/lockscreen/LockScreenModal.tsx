@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppStore } from '../../store/AppContext';
-import { useCountdown } from '../../hooks/useCountdown';
+import { useCountdownEngine } from '../../hooks/useCountdownEngine';
 import { soundEngine } from '../../services/soundEngine';
 import { Icon } from '../../components/common/Icon';
 import confetti from 'canvas-confetti';
@@ -16,7 +16,13 @@ export const LockScreenModal: React.FC<Props> = ({ onClose }) => {
   const currentExperience =
     experiences.find((e) => e.id === lockScreenTrackId) || experiences[0];
 
-  const countdown = useCountdown(currentExperience.targetOfferDate, currentExperience.startDateIso);
+  const countdown = useCountdownEngine({
+    targetDate: currentExperience.targetOfferDate,
+    startDate: currentExperience.startDateIso,
+    completedMilestones: currentExperience.milestones.filter((m) => m.completed).length,
+    totalMilestones: currentExperience.milestones.length,
+    tickIntervalMs: 50,
+  });
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [zenMode, setZenMode] = useState(settings.zenMode);
@@ -364,13 +370,13 @@ export const LockScreenModal: React.FC<Props> = ({ onClose }) => {
         <div className="w-full max-w-xl my-4">
           <div className="flex justify-between items-center text-xs text-slate-400 mb-1.5 font-medium">
             <span>Target Date: {formatDate(currentExperience.targetOfferDate)}</span>
-            <span>{countdown.progressPercentage.toFixed(0)}% elapsed</span>
+            <span>{countdown.timelineProgressPercentage.toFixed(0)}% elapsed</span>
           </div>
           <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-300"
               style={{
-                width: `${countdown.progressPercentage}%`,
+                width: `${countdown.timelineProgressPercentage}%`,
                 backgroundColor: currentExperience.theme.primary,
                 boxShadow: `0 0 12px ${currentExperience.theme.primary}`,
               }}

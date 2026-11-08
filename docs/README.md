@@ -1,6 +1,6 @@
-# OFFER MODE — Frontend Engineering Documentation
+# Mahi - Countdown-Screen — Engineering Documentation
 
-Welcome to the definitive engineering documentation for **OFFER MODE: Personal Life, Career & Productivity Command Center**.
+Welcome to the definitive engineering documentation for **Mahi - Countdown-Screen** (OFFER MODE: Personal Life, Career & Productivity Command Center).
 
 This documentation suite serves as the single source of architectural truth for product engineers, frontend architects, security auditors, QA automation engineers, and mobile developers preparing for React Native / Expo cross-platform parity.
 

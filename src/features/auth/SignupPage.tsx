@@ -106,10 +106,10 @@ export const SignupPage: React.FC = () => {
             <Icon name="Target" className="w-6 h-6 text-indigo-300" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-display">
-            Create Your Account
+            Join Mahi - Countdown-Screen
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 font-normal">
-            Start tracking countdowns, milestones, and secure your career projects with passkeys.
+            Start tracking countdowns, milestones, habits, and secure your command center with passkeys.
           </p>
         </div>
 

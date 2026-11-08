@@ -1,7 +1,7 @@
 {
-  "name": "offer-mode",
+  "name": "mahi-countdown-screen",
   "version": "1.0.0",
-  "description": "OFFER MODE — Production-ready career countdown workstation, milestone tracking engine, and lock screen wallpaper studio.",
+  "description": "Mahi - Countdown-Screen — Production-ready career countdown workstation, milestone tracking engine, and lock screen wallpaper studio.",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -1,11 +1,12 @@
-# 🎯 OFFER MODE — Personal Life, Career & Productivity Command Center
+# 🎯 Mahi - Countdown-Screen
+### Personal Life, Career & Productivity Command Center (OFFER MODE)
 
 [![CI / Build & Verification](https://github.com/maheswari-pinneti/Countdown-Lock-Screen/actions/workflows/ci.yml/badge.svg)](https://github.com/maheswari-pinneti/Countdown-Lock-Screen/actions/workflows/ci.yml)
-[![Tests Passing](https://img.shields.io/badge/tests-7%20suites%20passing-brightgreen.svg)](https://github.com/maheswari-pinneti/Countdown-Lock-Screen)
+[![Tests Passing](https://img.shields.io/badge/tests-8%20suites%20passing-brightgreen.svg)](https://github.com/maheswari-pinneti/Countdown-Lock-Screen)
 [![TypeScript 5.7](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
-**OFFER MODE** is an enterprise-grade, human-centered **Personal Life, Career & Productivity Command Center**. It unites daily habit routines, mental well-being, financial runway, and career countdown workstations into a calm, unified, local-first web application.
+**Mahi - Countdown-Screen** (OFFER MODE) is an enterprise-grade, human-centered **Personal Life, Career & Productivity Command Center**. It unites daily habit routines, mental well-being, financial runway, and career countdown workstations into a calm, unified, local-first web application.
 
 Every deadline deserves a plan. Every goal deserves progress.
 

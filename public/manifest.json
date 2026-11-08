@@ -1,6 +1,6 @@
 {
-  "name": "OFFER MODE — Career Countdown & Lock Screen Hub",
-  "short_name": "OFFER MODE",
+  "name": "Mahi - Countdown-Screen",
+  "short_name": "Mahi Countdown",
   "description": "Production-ready career countdown workstation, milestone tracking engine, and lock screen wallpaper studio.",
   "start_url": "/",
   "display": "standalone",
