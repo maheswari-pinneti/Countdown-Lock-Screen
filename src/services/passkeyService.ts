@@ -63,69 +63,83 @@ class PasskeyService {
     error?: string;
   }> {
     const isSupported = await this.isPasskeyAvailable();
+    if (!isSupported) {
+      return {
+        success: false,
+        error: 'Hardware platform passkeys (Touch ID, Face ID, Windows Hello) are not supported on this browser or platform.',
+      };
+    }
+
+    if (typeof window !== 'undefined' && !window.isSecureContext) {
+      return {
+        success: false,
+        error: 'Passkeys require a secure context (HTTPS or localhost).',
+      };
+    }
+
     const challenge = crypto.getRandomValues(new Uint8Array(32));
     const userIdBuffer = strToBuffer(user.id);
 
-    let credentialId = `passkey-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    try {
+      const publicKeyOptions: PublicKeyCredentialCreationOptions = {
+        challenge: challenge as unknown as BufferSource,
+        rp: {
+          name: 'Offer Mode Focus Workstation',
+          id: window.location.hostname || 'localhost',
+        },
+        user: {
+          id: userIdBuffer as unknown as BufferSource,
+          name: user.email,
+          displayName: user.name,
+        },
+        pubKeyCredParams: [
+          { alg: -7, type: 'public-key' },  // ES256
+          { alg: -257, type: 'public-key' }, // RS256
+        ],
+        authenticatorSelection: {
+          authenticatorAttachment: 'platform',
+          userVerification: 'required',
+          residentKey: 'preferred',
+        },
+        timeout: 60000,
+        attestation: 'none',
+      };
 
-    if (isSupported && window.isSecureContext) {
-      try {
-        const publicKeyOptions: PublicKeyCredentialCreationOptions = {
-          challenge: challenge as unknown as BufferSource,
-          rp: {
-            name: 'Offer Mode Focus Workstation',
-            id: window.location.hostname || 'localhost',
-          },
-          user: {
-            id: userIdBuffer as unknown as BufferSource,
-            name: user.email,
-            displayName: user.name,
-          },
-          pubKeyCredParams: [
-            { alg: -7, type: 'public-key' },  // ES256
-            { alg: -257, type: 'public-key' }, // RS256
-          ],
-          authenticatorSelection: {
-            authenticatorAttachment: 'platform',
-            userVerification: 'preferred',
-            residentKey: 'preferred',
-          },
-          timeout: 60000,
-          attestation: 'none',
-        };
+      const credential = (await navigator.credentials.create({
+        publicKey: publicKeyOptions,
+      })) as PublicKeyCredential;
 
-        const credential = (await navigator.credentials.create({
-          publicKey: publicKeyOptions,
-        })) as PublicKeyCredential;
-
-        if (credential) {
-          credentialId = bufferToBase64Url(credential.rawId);
-        }
-      } catch (err: any) {
-        // If user cancelled, report it; otherwise fallback to client secure passkey
-        if (err.name === 'NotAllowedError') {
-          return { success: false, error: 'Passkey setup cancelled by user.' };
-        }
-        console.warn('Native WebAuthn prompt fallback:', err);
+      if (!credential || !credential.rawId) {
+        return { success: false, error: 'WebAuthn passkey registration was not completed.' };
       }
+
+      const credentialId = bufferToBase64Url(credential.rawId);
+
+      const newRecord: PasskeyRecord = {
+        id: `pk_${Date.now()}`,
+        name: `${user.name}'s Verified Device Passkey`,
+        userId: user.id,
+        userEmail: user.email,
+        credentialId,
+        transports: ['internal'],
+        createdAt: new Date().toISOString(),
+        lastUsedAt: new Date().toISOString(),
+      };
+
+      const existing = this.getStoredPasskeys();
+      const updated = [newRecord, ...existing.filter((p) => p.userEmail !== user.email)];
+      this.savePasskeys(updated);
+
+      return { success: true, record: newRecord };
+    } catch (err: any) {
+      if (err.name === 'NotAllowedError') {
+        return { success: false, error: 'Passkey registration cancelled by user or timed out.' };
+      }
+      return {
+        success: false,
+        error: err.message || 'WebAuthn platform authentication failed.',
+      };
     }
-
-    const newRecord: PasskeyRecord = {
-      id: `pk_${Date.now()}`,
-      name: `${user.name}'s Device Passkey`,
-      userId: user.id,
-      userEmail: user.email,
-      credentialId,
-      transports: ['internal'],
-      createdAt: new Date().toISOString(),
-      lastUsedAt: new Date().toISOString(),
-    };
-
-    const existing = this.getStoredPasskeys();
-    const updated = [newRecord, ...existing.filter((p) => p.userEmail !== user.email)];
-    this.savePasskeys(updated);
-
-    return { success: true, record: newRecord };
   }
 
   // Verify and authenticate with an existing passkey
@@ -138,7 +152,7 @@ class PasskeyService {
     if (passkeys.length === 0) {
       return {
         success: false,
-        error: 'No passkeys found on this device. Please register a passkey first.',
+        error: 'No passkeys found on this device. Please register with email/password first.',
       };
     }
 
@@ -154,36 +168,44 @@ class PasskeyService {
     }
 
     const isSupported = await this.isPasskeyAvailable();
-
-    if (isSupported && window.isSecureContext) {
-      try {
-        const challenge = crypto.getRandomValues(new Uint8Array(32));
-        const getOptions: PublicKeyCredentialRequestOptions = {
-          challenge: challenge as unknown as BufferSource,
-          rpId: window.location.hostname || 'localhost',
-          userVerification: 'preferred',
-          timeout: 60000,
-        };
-
-        await navigator.credentials.get({
-          publicKey: getOptions,
-        });
-      } catch (err: any) {
-        if (err.name === 'NotAllowedError') {
-          return { success: false, error: 'Passkey authentication cancelled.' };
-        }
-        console.warn('Native WebAuthn verification fallback:', err);
-      }
-    } else {
-      // Gentle 300ms verification simulation for non-HTTPS or test environments
-      await new Promise((resolve) => setTimeout(resolve, 300));
+    if (!isSupported || (typeof window !== 'undefined' && !window.isSecureContext)) {
+      return {
+        success: false,
+        error: 'Hardware passkey authentication requires a secure context (HTTPS) and supported biometric device.',
+      };
     }
 
-    // Update last used timestamp
-    matched.lastUsedAt = new Date().toISOString();
-    this.savePasskeys(passkeys.map((p) => (p.id === matched.id ? matched : p)));
+    try {
+      const challenge = crypto.getRandomValues(new Uint8Array(32));
+      const getOptions: PublicKeyCredentialRequestOptions = {
+        challenge: challenge as unknown as BufferSource,
+        rpId: window.location.hostname || 'localhost',
+        userVerification: 'required',
+        timeout: 60000,
+      };
 
-    return { success: true, record: matched };
+      const assertion = await navigator.credentials.get({
+        publicKey: getOptions,
+      });
+
+      if (!assertion) {
+        return { success: false, error: 'Biometric passkey assertion was not received.' };
+      }
+
+      // Update last used timestamp
+      matched.lastUsedAt = new Date().toISOString();
+      this.savePasskeys(passkeys.map((p) => (p.id === matched.id ? matched : p)));
+
+      return { success: true, record: matched };
+    } catch (err: any) {
+      if (err.name === 'NotAllowedError') {
+        return { success: false, error: 'Passkey verification cancelled by user.' };
+      }
+      return {
+        success: false,
+        error: err.message || 'Biometric passkey verification failed.',
+      };
+    }
   }
 
   // Remove a passkey

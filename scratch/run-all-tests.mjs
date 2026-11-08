@@ -14,13 +14,14 @@ const suites = [
   { name: 'Five Dedicated Career Modules Isolation', script: 'test-five-modules.mjs', flags: [] },
   { name: 'Wallpaper Studio & 5 Themes Verification', script: 'test-wallpaper-and-themes.mjs', flags: [] },
   { name: 'Calendar Integration & iCalendar Sync', script: 'test-calendar-sync.mjs', flags: [] },
-  { name: 'Multi-Library Icon System (7 Providers)', script: 'test-icon-registry.mjs', flags: [] }
+  { name: 'Multi-Library Icon System (7 Providers)', script: 'test-icon-registry.mjs', flags: [] },
+  { name: 'Authentication Security & Cryptography Engine', script: 'test-auth-security.mjs', flags: [] }
 ];
 
 console.log(`
 ============================================================
 🎯 OFFER MODE MASTER VERIFICATION RUNNER
-Running 5 Test Suites across all 5 Career Workstations...
+Running 6 Test Suites across all 5 Career Workstations...
 ============================================================
 `);
 
@@ -42,11 +43,12 @@ for (const suite of suites) {
 
 console.log(`
 ============================================================
-🎉 ALL TESTS PASSED ACROSS ALL 5 TEST SUITES!
+🎉 ALL TESTS PASSED ACROSS ALL 6 TEST SUITES!
 ✓ Countdown engine precision verified
 ✓ 5 career track modules verified
 ✓ Wallpaper themes & canvas export verified
 ✓ Calendar integration & .ics export verified
 ✓ Multi-library icon system verified across 7 providers
+✓ Authentication security & cryptography engine verified
 ============================================================
 `);

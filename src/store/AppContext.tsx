@@ -20,6 +20,7 @@ import {
 import { DEFAULT_EXPERIENCES, DEFAULT_DESIGN_PRESETS } from '../data/defaultExperiences';
 import { soundEngine } from '../services/soundEngine';
 import { passkeyService } from '../services/passkeyService';
+import { authSecurityService } from '../services/authSecurityService';
 
 const USER_STORAGE_KEY = 'offer_mode_current_user_v1';
 
@@ -36,6 +37,19 @@ export const DEMO_USER: UserProfile = {
 
 function loadStoredUser(): UserProfile | null {
   try {
+    const session = authSecurityService.getActiveSession();
+    if (session) {
+      const passkeys = passkeyService.getStoredPasskeys();
+      const hasPasskey = passkeys.some((p) => p.userEmail.toLowerCase() === session.userEmail.toLowerCase());
+      return {
+        id: session.userId,
+        email: session.userEmail,
+        name: session.userName,
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&h=160&q=80',
+        hasPasskey,
+        createdAt: new Date(session.createdAt).toISOString(),
+      };
+    }
     const raw = localStorage.getItem(USER_STORAGE_KEY);
     if (!raw) return null;
     return JSON.parse(raw);
@@ -229,6 +243,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!email || !email.includes('@')) {
       return { success: false, error: 'Please enter a valid email address.' };
     }
+    if (!password) {
+      return { success: false, error: 'Please enter your password.' };
+    }
+
+    const authRes = await authSecurityService.authenticate(email, password);
+    if (!authRes.success || !authRes.session) {
+      return { success: false, error: authRes.error || 'Invalid email or password.' };
+    }
 
     const storedPasskeys = passkeyService.getStoredPasskeys();
     const hasRegisteredPasskey = storedPasskeys.some(
@@ -236,9 +258,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
 
     const user: UserProfile = {
-      id: `usr_${Date.now()}`,
-      email,
-      name: email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+      id: authRes.session.userId,
+      email: authRes.session.userEmail,
+      name: authRes.session.userName,
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&h=160&q=80',
       hasPasskey: hasRegisteredPasskey,
       passkeyName: hasRegisteredPasskey ? 'Verified Device Passkey' : undefined,
@@ -289,14 +311,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!email || !email.includes('@')) {
       return { success: false, error: 'Please enter a valid email address.' };
     }
+    if (!password || password.length < 8) {
+      return { success: false, error: 'Password must be at least 8 characters long.' };
+    }
+
+    const regRes = await authSecurityService.registerAccount(name, email, password);
+    if (!regRes.success || !regRes.account) {
+      return { success: false, error: regRes.error || 'Account registration failed.' };
+    }
+
+    authSecurityService.createSession(regRes.account);
 
     const newUser: UserProfile = {
-      id: `usr_${Date.now()}`,
-      name: name.trim(),
-      email: email.trim().toLowerCase(),
+      id: regRes.account.id,
+      name: regRes.account.name,
+      email: regRes.account.email,
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&h=160&q=80',
       hasPasskey: false,
-      createdAt: new Date().toISOString(),
+      createdAt: regRes.account.createdAt,
     };
 
     if (registerPasskey) {
@@ -320,6 +352,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Sign out
   const logout = () => {
+    authSecurityService.clearSession();
     setCurrentUser(null);
     soundEngine.playKeyClick();
   };

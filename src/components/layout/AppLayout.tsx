@@ -8,6 +8,7 @@ import { Toast } from '../feedback/Toast';
 import { CookieConsentBanner } from '../common/CookieConsentBanner';
 import { CareerPersonasModal } from '../common/CareerPersonasModal';
 import { PasskeyModal } from '../common/PasskeyModal';
+import { RouteLoadingFallback } from '../common/RouteLoadingFallback';
 import { Icon } from '../common/Icon';
 import { useHotkeys } from '../../hooks/useHotkeys';
 import { soundEngine } from '../../services/soundEngine';
@@ -22,6 +23,16 @@ export const AppLayout: React.FC = () => {
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
   const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Track window scroll for Back to Top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 320);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Capture beforeinstallprompt for PWA installation
   useEffect(() => {
@@ -122,7 +133,9 @@ export const AppLayout: React.FC = () => {
         </header>
 
         <main className="flex-1 flex items-center justify-center p-4">
-          <Outlet />
+          <React.Suspense fallback={<RouteLoadingFallback />}>
+            <Outlet />
+          </React.Suspense>
         </main>
 
         <footer className="py-4 text-center text-xs text-slate-500 border-t border-slate-800/60">
@@ -141,6 +154,14 @@ export const AppLayout: React.FC = () => {
         isLight ? 'theme-light bg-slate-50 text-slate-900' : 'bg-[#0B0F19] text-slate-100 cutting-mat-grid'
       }`}
     >
+      {/* Skip to Content Accessibility Landmark */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-cyan-500 focus:text-black focus:font-bold focus:rounded-lg focus:shadow-2xl focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* 1. Fixed Sidebar */}
       <Sidebar
         isOpen={isMobileSidebarOpen}
@@ -180,8 +201,10 @@ export const AppLayout: React.FC = () => {
         )}
 
         {/* Main Content Viewport */}
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 max-w-7xl w-full mx-auto">
-          <Outlet />
+        <main id="main-content" className="flex-1 px-4 sm:px-6 lg:px-8 py-8 max-w-7xl w-full mx-auto outline-none">
+          <React.Suspense fallback={<RouteLoadingFallback />}>
+            <Outlet />
+          </React.Suspense>
         </main>
 
         {/* Executive SaaS Footer */}
@@ -270,6 +293,21 @@ export const AppLayout: React.FC = () => {
           message={activeToast.message}
           onClose={() => setActiveToast(null)}
         />
+      )}
+
+      {/* Floating Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={() => {
+            soundEngine.playKeyClick();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-indigo-600/90 hover:bg-indigo-500 text-white shadow-xl backdrop-blur border border-indigo-400/40 transition-all hover:scale-110 active:scale-95 animate-fadeIn"
+          aria-label="Back to top"
+          title="Back to top"
+        >
+          <Icon name="ChevronUp" className="w-5 h-5" />
+        </button>
       )}
     </div>
   );

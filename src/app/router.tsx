@@ -1,28 +1,30 @@
 import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { AppLayout } from '../components/layout/AppLayout';
-import { OverviewPage } from '../features/overview/OverviewPage';
-import { DeveloperPage } from '../features/developer/DeveloperPage';
-import { InterviewPage } from '../features/interview/InterviewPage';
-import { JobHuntPage } from '../features/job-hunt/JobHuntPage';
-import { CareerSwitchPage } from '../features/career-switch/CareerSwitchPage';
-import { FirstJobPage } from '../features/first-job/FirstJobPage';
-import { CountdownStudioPage } from '../features/countdown-studio/CountdownStudioPage';
-import { MilestonesPage } from '../features/milestones/MilestonesPage';
-import { SavedDesignsPage } from '../features/saved-designs/SavedDesignsPage';
-import { MyLockScreensPage } from '../features/lockscreen/MyLockScreensPage';
-import { NotificationsPage } from '../features/notifications/NotificationsPage';
-import { SettingsPage } from '../features/settings/SettingsPage';
-import { HelpAboutPage } from '../features/help/HelpAboutPage';
-import { NotFoundPage } from '../features/not-found/NotFoundPage';
-import { PlatformShowcase } from '../features/showcase/PlatformShowcase';
-import { EmployeeDirectoryPage } from '../features/directory/EmployeeDirectoryPage';
-import { LoginPage } from '../features/auth/LoginPage';
-import { SignupPage } from '../features/auth/SignupPage';
-import { TermsPage } from '../features/legal/TermsPage';
-import { PrivacyPage } from '../features/legal/PrivacyPage';
 import { useAppStore } from '../store/AppContext';
 import { RouteErrorBoundary } from '../components/feedback/RouteErrorBoundary';
+
+// Lazy-loaded feature routes for sub-second initial load and efficient chunking
+const OverviewPage = React.lazy(() => import('../features/overview/OverviewPage').then((m) => ({ default: m.OverviewPage })));
+const DeveloperPage = React.lazy(() => import('../features/developer/DeveloperPage').then((m) => ({ default: m.DeveloperPage })));
+const InterviewPage = React.lazy(() => import('../features/interview/InterviewPage').then((m) => ({ default: m.InterviewPage })));
+const JobHuntPage = React.lazy(() => import('../features/job-hunt/JobHuntPage').then((m) => ({ default: m.JobHuntPage })));
+const CareerSwitchPage = React.lazy(() => import('../features/career-switch/CareerSwitchPage').then((m) => ({ default: m.CareerSwitchPage })));
+const FirstJobPage = React.lazy(() => import('../features/first-job/FirstJobPage').then((m) => ({ default: m.FirstJobPage })));
+const CountdownStudioPage = React.lazy(() => import('../features/countdown-studio/CountdownStudioPage').then((m) => ({ default: m.CountdownStudioPage })));
+const MilestonesPage = React.lazy(() => import('../features/milestones/MilestonesPage').then((m) => ({ default: m.MilestonesPage })));
+const SavedDesignsPage = React.lazy(() => import('../features/saved-designs/SavedDesignsPage').then((m) => ({ default: m.SavedDesignsPage })));
+const MyLockScreensPage = React.lazy(() => import('../features/lockscreen/MyLockScreensPage').then((m) => ({ default: m.MyLockScreensPage })));
+const NotificationsPage = React.lazy(() => import('../features/notifications/NotificationsPage').then((m) => ({ default: m.NotificationsPage })));
+const SettingsPage = React.lazy(() => import('../features/settings/SettingsPage').then((m) => ({ default: m.SettingsPage })));
+const HelpAboutPage = React.lazy(() => import('../features/help/HelpAboutPage').then((m) => ({ default: m.HelpAboutPage })));
+const NotFoundPage = React.lazy(() => import('../features/not-found/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
+const PlatformShowcase = React.lazy(() => import('../features/showcase/PlatformShowcase').then((m) => ({ default: m.PlatformShowcase })));
+const EmployeeDirectoryPage = React.lazy(() => import('../features/directory/EmployeeDirectoryPage').then((m) => ({ default: m.EmployeeDirectoryPage })));
+const LoginPage = React.lazy(() => import('../features/auth/LoginPage').then((m) => ({ default: m.LoginPage })));
+const SignupPage = React.lazy(() => import('../features/auth/SignupPage').then((m) => ({ default: m.SignupPage })));
+const TermsPage = React.lazy(() => import('../features/legal/TermsPage').then((m) => ({ default: m.TermsPage })));
+const PrivacyPage = React.lazy(() => import('../features/legal/PrivacyPage').then((m) => ({ default: m.PrivacyPage })));
 
 // Protected Route: Guarantees user must login/signup first before accessing workstations
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
