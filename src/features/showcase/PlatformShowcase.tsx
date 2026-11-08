@@ -14,6 +14,110 @@ export const PlatformShowcase: React.FC = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isPersonaModalOpen, setIsPersonaModalOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [selectedIconProvider, setSelectedIconProvider] = useState<string>('all');
+  const [copiedIcon, setCopiedIcon] = useState<string | null>(null);
+
+  const handleCopyIconName = (name: string) => {
+    soundEngine.playKeyClick();
+    navigator.clipboard.writeText(`<Icon name="${name}" />`);
+    setCopiedIcon(name);
+    setTimeout(() => setCopiedIcon(null), 2000);
+  };
+
+  const ICON_LIBRARIES = [
+    {
+      provider: 'Simple Icons',
+      tag: 'simpleicons',
+      description: 'Official developer, cloud & technology brand vectors',
+      icons: [
+        { name: 'si-github', label: 'GitHub' },
+        { name: 'si-google', label: 'Google' },
+        { name: 'si-linkedin', label: 'LinkedIn' },
+        { name: 'si-x', label: 'X / Twitter' },
+        { name: 'si-react', label: 'React' },
+        { name: 'si-typescript', label: 'TypeScript' },
+        { name: 'si-python', label: 'Python' },
+        { name: 'si-docker', label: 'Docker' },
+        { name: 'si-aws', label: 'AWS' },
+        { name: 'si-figma', label: 'Figma' },
+        { name: 'si-slack', label: 'Slack' },
+        { name: 'si-notion', label: 'Notion' },
+        { name: 'si-leetcode', label: 'LeetCode' },
+      ],
+    },
+    {
+      provider: 'Font Awesome',
+      tag: 'fontawesome',
+      description: 'Solid UI glyphs for career, milestones & achievements',
+      icons: [
+        { name: 'fa-briefcase', label: 'Briefcase' },
+        { name: 'fa-graduation-cap', label: 'Graduation' },
+        { name: 'fa-trophy', label: 'Trophy' },
+        { name: 'fa-bullseye', label: 'Bullseye' },
+        { name: 'fa-mug-hot', label: 'Coffee' },
+        { name: 'fa-handshake', label: 'Handshake' },
+      ],
+    },
+    {
+      provider: 'Bootstrap Icons',
+      tag: 'bootstrap',
+      description: 'Engineered developer & system interface symbols',
+      icons: [
+        { name: 'bi-bootstrap', label: 'Bootstrap' },
+        { name: 'bi-kanban', label: 'Kanban' },
+        { name: 'bi-diagram3', label: 'Diagram' },
+        { name: 'bi-lightning-charge', label: 'Lightning' },
+        { name: 'bi-wallet2', label: 'Wallet' },
+      ],
+    },
+    {
+      provider: 'The Noun Project',
+      tag: 'nounproject',
+      description: 'Minimalist geometric symbology for vision & growth',
+      icons: [
+        { name: 'noun-target', label: 'Target Focus' },
+        { name: 'noun-mountain', label: 'Summit' },
+        { name: 'noun-growth', label: 'Growth' },
+        { name: 'noun-balance', label: 'Balance' },
+      ],
+    },
+    {
+      provider: 'Google Fonts / Material',
+      tag: 'material',
+      description: 'Material Symbols for life routines, health & schedule',
+      icons: [
+        { name: 'material-work', label: 'Work Mode' },
+        { name: 'material-schedule', label: 'Schedule' },
+        { name: 'material-verified', label: 'Verified' },
+        { name: 'material-savings', label: 'Savings' },
+        { name: 'material-mood', label: 'Mood' },
+        { name: 'material-water-drop', label: 'Hydration' },
+      ],
+    },
+    {
+      provider: 'Icons8',
+      tag: 'icons8',
+      description: 'Modern line vectors for interviews, contracts & compensation',
+      icons: [
+        { name: 'icons8-resume', label: 'Resume' },
+        { name: 'icons8-interview', label: 'Interview' },
+        { name: 'icons8-contract', label: 'Contract' },
+        { name: 'icons8-money-bag', label: 'Compensation' },
+      ],
+    },
+    {
+      provider: 'Flaticon',
+      tag: 'flaticon',
+      description: 'Expressive icons for wellness, mindfulness & personal habits',
+      icons: [
+        { name: 'flaticon-meditation', label: 'Meditation' },
+        { name: 'flaticon-sleep', label: 'Sleep' },
+        { name: 'flaticon-exercise', label: 'Exercise' },
+        { name: 'flaticon-airplane', label: 'Travel Dream' },
+        { name: 'flaticon-gratitude', label: 'Gratitude' },
+      ],
+    },
+  ];
 
   const toggleFaq = (idx: number) => {
     soundEngine.playKeyClick();
@@ -402,6 +506,108 @@ export const PlatformShowcase: React.FC = () => {
             <div className="font-bold text-white text-[11px]">100% Offline</div>
             <div className="text-[10px] text-zinc-500">Service Worker Capable</div>
           </div>
+        </div>
+      </div>
+
+      {/* MULTI-LIBRARY ICON SYSTEM & DESIGN ASSET CATALOG */}
+      <div className="space-y-6">
+        <div className="text-center space-y-2">
+          <span className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider">
+            Vector Design System
+          </span>
+          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            Integrated Icon Libraries & Glyph Engine
+          </h2>
+          <p className="text-xs text-zinc-400 max-w-2xl mx-auto">
+            OFFER MODE embeds high-performance vector icons across 7 design systems without external network requests or tracking links. Click any icon to copy its component code.
+          </p>
+        </div>
+
+        {/* Provider Filter Tabs */}
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto">
+          <button
+            onClick={() => {
+              soundEngine.playKeyClick();
+              setSelectedIconProvider('all');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              selectedIconProvider === 'all'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.2)]'
+                : 'bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white'
+            }`}
+          >
+            All Libraries
+          </button>
+          {ICON_LIBRARIES.map((lib) => (
+            <button
+              key={lib.tag}
+              onClick={() => {
+                soundEngine.playKeyClick();
+                setSelectedIconProvider(lib.tag);
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                selectedIconProvider === lib.tag
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.2)]'
+                  : 'bg-zinc-900/60 text-zinc-400 border border-zinc-800 hover:text-white'
+              }`}
+            >
+              {lib.provider}
+            </button>
+          ))}
+        </div>
+
+        {/* Copy Feedback Toast Banner */}
+        {copiedIcon && (
+          <div className="text-center animate-fadeIn">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+              <Icon name="Check" className="w-3.5 h-3.5" />
+              Copied &lt;Icon name=&quot;{copiedIcon}&quot; /&gt; to clipboard!
+            </span>
+          </div>
+        )}
+
+        {/* Icon Grid Showcase */}
+        <div className="space-y-6">
+          {ICON_LIBRARIES.filter(
+            (lib) => selectedIconProvider === 'all' || selectedIconProvider === lib.tag
+          ).map((lib) => (
+            <div
+              key={lib.tag}
+              className="p-5 rounded-2xl bg-[#090D1A] border border-zinc-800/80 space-y-3"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-2 border-b border-zinc-800/60">
+                <div>
+                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                    {lib.provider}
+                  </h3>
+                  <p className="text-[11px] text-zinc-400 mt-0.5">{lib.description}</p>
+                </div>
+                <span className="text-[10px] font-mono text-zinc-500">{lib.icons.length} Glyphs</span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 pt-1">
+                {lib.icons.map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={() => handleCopyIconName(item.name)}
+                    className="p-3 rounded-xl bg-black/40 border border-zinc-800/70 hover:border-cyan-500/40 hover:bg-cyan-950/20 transition-all flex flex-col items-center justify-center gap-2 group text-center cursor-pointer"
+                    title={`Click to copy <Icon name="${item.name}" />`}
+                  >
+                    <span className="text-zinc-300 group-hover:text-cyan-300 group-hover:scale-110 transition-transform">
+                      <Icon name={item.name} className="w-5 h-5" />
+                    </span>
+                    <span className="text-[11px] font-medium text-zinc-300 group-hover:text-white line-clamp-1">
+                      {item.label}
+                    </span>
+                    <span className="text-[9px] font-mono text-zinc-500 group-hover:text-cyan-400">
+                      {item.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

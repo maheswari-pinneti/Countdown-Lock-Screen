@@ -13,13 +13,14 @@ const suites = [
   { name: 'Core Countdown & Milestone Engine', script: 'test-suite.mjs', flags: [] },
   { name: 'Five Dedicated Career Modules Isolation', script: 'test-five-modules.mjs', flags: [] },
   { name: 'Wallpaper Studio & 5 Themes Verification', script: 'test-wallpaper-and-themes.mjs', flags: [] },
-  { name: 'Calendar Integration & iCalendar Sync', script: 'test-calendar-sync.mjs', flags: [] }
+  { name: 'Calendar Integration & iCalendar Sync', script: 'test-calendar-sync.mjs', flags: [] },
+  { name: 'Multi-Library Icon System (7 Providers)', script: 'test-icon-registry.mjs', flags: [] }
 ];
 
 console.log(`
 ============================================================
 🎯 OFFER MODE MASTER VERIFICATION RUNNER
-Running 4 Test Suites across all 5 Career Workstations...
+Running 5 Test Suites across all 5 Career Workstations...
 ============================================================
 `);
 
@@ -41,10 +42,11 @@ for (const suite of suites) {
 
 console.log(`
 ============================================================
-🎉 ALL 138 TESTS PASSED ACROSS ALL 4 TEST SUITES!
+🎉 ALL TESTS PASSED ACROSS ALL 5 TEST SUITES!
 ✓ Countdown engine precision verified
 ✓ 5 career track modules verified
 ✓ Wallpaper themes & canvas export verified
 ✓ Calendar integration & .ics export verified
+✓ Multi-library icon system verified across 7 providers
 ============================================================
 `);

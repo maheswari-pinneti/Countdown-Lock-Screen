@@ -1,4 +1,5 @@
 import React from 'react';
+import { EXTENDED_ICON_REGISTRY } from '../icons';
 import {
   Cpu,
   TrendingUp,
@@ -68,7 +69,12 @@ export const ExperienceIcon: React.FC<Props> = ({ name, ...props }) => {
       return <Activity {...props} />;
     case 'Layers':
       return <Layers {...props} />;
-    default:
+    default: {
+      const ExtendedComponent = EXTENDED_ICON_REGISTRY[name] || EXTENDED_ICON_REGISTRY[name.toLowerCase()];
+      if (ExtendedComponent) {
+        return <ExtendedComponent {...(props as any)} />;
+      }
       return <Briefcase {...props} />;
+    }
   }
 };

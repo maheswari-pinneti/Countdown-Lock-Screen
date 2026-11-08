@@ -327,11 +327,20 @@ const ICON_MAP: Record<IconName, React.ComponentType<LucideProps>> = {
   'arrow-left-right': ArrowLeftRight,
 };
 
+import { EXTENDED_ICON_REGISTRY } from '../icons';
+
 interface IconProps extends LucideProps {
   name: IconName | string;
 }
 
 export const Icon: React.FC<IconProps> = ({ name, ...props }) => {
+  const normalizedKey = typeof name === 'string' ? name.toLowerCase() : '';
+  const ExtendedComponent = EXTENDED_ICON_REGISTRY[name] || EXTENDED_ICON_REGISTRY[normalizedKey];
+
+  if (ExtendedComponent) {
+    return <ExtendedComponent {...(props as any)} />;
+  }
+
   const Component = ICON_MAP[name as IconName] || Briefcase;
   return <Component {...props} />;
 };
